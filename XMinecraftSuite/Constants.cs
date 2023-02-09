@@ -17,5 +17,12 @@ namespace XMinecraftSuite.Wpf
             Add("SelectedItemBrush", SelectedItemBrush);
             Add("HoveredItemBrush", HoveredItemBrush);
         }
+
+        public static string[] DesignDatas = new string[]
+        {
+            "ok", "2", "3", "4", "5", "6",
+            "ok", "2", "3", "4", "5", "6", "ok", "2", "3", "4", "5", "6", "ok", "2", "3", "4", "5", "6", "ok", "2", "3",
+            "4", "5", "6",
+        };
     }
 }

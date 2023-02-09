@@ -24,7 +24,8 @@
                         </Grid.ColumnDefinitions>
                         <Grid.Background>
                             <MultiBinding Converter="{StaticResource SelectableItemColorConverter}">
-                                <Binding Path="DataContext.SelectedModSlug" RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
+                                <Binding Path="DataContext.SelectedModSlug"
+                                         RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
                                 <Binding Path="Slug" />
                             </MultiBinding>
                         </Grid.Background>
@@ -39,7 +40,8 @@
                             VerticalAlignment="Top"
                             Style="{StaticResource RoundedBorder}">
                             <Border.Background>
-                                <ImageBrush ImageSource="{Binding ImageUrl, Converter={StaticResource ImageOrAlternativeConverter}, ConverterParameter={StaticResource LoadingImage}}" />
+                                <ImageBrush
+                                    ImageSource="{Binding ImageUrl, Converter={StaticResource ImageOrAlternativeConverter}, ConverterParameter={StaticResource LoadingImage}}" />
                             </Border.Background>
                         </Border>
                         <!--#endregion-->

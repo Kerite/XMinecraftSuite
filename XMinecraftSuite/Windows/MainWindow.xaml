@@ -42,7 +42,8 @@
                     BorderThickness="1"
                     Style="{StaticResource HoverableBorder}">
                     <ScrollViewer Padding="2" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl Name="ModProviders" ItemsSource="{Binding Source={x:Static providers:GlobalModProviderProxy.Instance}, Path=OnlineProviderProxy}">
+                        <ItemsControl Name="ModProviders"
+                                      ItemsSource="{Binding Source={x:Static providers:GlobalModProviderProxy.Instance}, Path=OnlineProviderProxy}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid MouseDown="ModProvider_Selected" Style="{StaticResource HoverableGrid}">
@@ -53,7 +54,8 @@
                                             </Grid.ColumnDefinitions>
                                             <Grid.Background>
                                                 <MultiBinding Converter="{StaticResource SelectableItemColorConverter}">
-                                                    <Binding Path="DataContext.ProviderKey" RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
+                                                    <Binding Path="DataContext.ProviderKey"
+                                                             RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
                                                     <Binding Path="MetaData.ProviderId" />
                                                 </MultiBinding>
                                             </Grid.Background>
@@ -66,7 +68,8 @@
                                                 VerticalAlignment="Center"
                                                 BorderBrush="{StaticResource BorderColorBrush}"
                                                 BorderThickness="0.5">
-                                                <Image Source="{Binding MetaData.Icon, Converter={StaticResource UniversalTypeConverter}}" />
+                                                <Image
+                                                    Source="{Binding MetaData.Icon, Converter={StaticResource UniversalTypeConverter}}" />
                                             </Border>
                                             <TextBlock
                                                 Grid.Column="1"

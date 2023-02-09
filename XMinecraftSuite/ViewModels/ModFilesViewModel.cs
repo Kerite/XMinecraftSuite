@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using XMinecraftSuite.Core;
 using XMinecraftSuite.Core.Commons;
+using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Providers;
 using XMinecraftSuite.Wpf.Commons.Commands;
@@ -15,6 +17,7 @@ namespace XMinecraftSuite.Wpf.ViewModels
         private List<AbstractModFile> _modFiles = new();
         private bool _includeSnapshot;
         private bool _loading;
+        private ListCollectionView? _versionsView;
 
         public string Slug { get; }
         public DelegateCommand<bool> FetchVersionsCommand { get; }
@@ -37,6 +40,16 @@ namespace XMinecraftSuite.Wpf.ViewModels
             {
                 _versions = new List<string>(value);
                 RaisePropertyChangedEvent(nameof(Versions));
+            }
+        }
+
+        public ListCollectionView VersionsView
+        {
+            get => _versionsView ?? new ListCollectionView(new List<MinecraftVersionModel>());
+            set
+            {
+                _versionsView = value;
+                RaisePropertyChangedEvent(nameof(VersionsView));
             }
         }
 
@@ -79,8 +92,12 @@ namespace XMinecraftSuite.Wpf.ViewModels
                 {
                     Loading = true;
                     var result = MCRequestHelper.Instance.GetMinecraftVersionsStringAsync(includeSnapshot).Result;
-                    Versions = result;
-                    SelectedVersion = Versions[0];
+                    var resultModels = MCRequestHelper.Instance.GetMinecraftVersionsModelAsync(includeSnapshot).Result;
+                    var newView = new ListCollectionView(resultModels);
+                    newView.GroupDescriptions?.Add(new PropertyGroupDescription("MType"));
+                    VersionsView = newView;
+
+                    SelectedVersion = ((MinecraftVersionModel)newView.GetItemAt(0)).Id;
                     Loading = false;
                 }).Start();
             });
