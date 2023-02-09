@@ -1,0 +1,111 @@
+﻿<Application
+    x:Class="XMinecraftSuite.Wpf.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:XMinecraftSuite.Wpf.Converters"
+    xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf"
+    StartupUri="Windows/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--  为True则隐藏  -->
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <!--  字符串为空则隐藏  -->
+            <converters:StringNotNullOrEmptyToVisibilityConverter x:Key="StringNotNullOrEmptyToVisibilityConverter" />
+            <converters:VisibleOrNullConverter x:Key="NullToVisibilityConverter" />
+            <converters:UniversalTypeConverter x:Key="UniversalTypeConverter" />
+            <converters:SelectableItemColorConverter x:Key="SelectableItemColorConverter" />
+            <!--  保证图片不是null  -->
+            <converters:ImageOrAlternativeConverter x:Key="ImageOrAlternativeConverter" />
+            <!--  Border样式  -->
+            <Style x:Key="NormalBorder" TargetType="Border">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}" />
+            </Style>
+            <Style x:Key="RoundedBorder" TargetType="Border">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}" />
+            </Style>
+            <Style x:Key="RoundedBorder20" TargetType="Border">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}" />
+            </Style>
+            <Style x:Key="HoverableBorder" TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                    To="{StaticResource HoveredBorderColor}"
+                                    Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                    To="{StaticResource BorderColor}"
+                                    Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Storyboard x:Key="OnMouseLeave">
+                <ColorAnimation
+                    Storyboard.TargetName="background"
+                    Storyboard.TargetProperty="Background.Color"
+                    To="Transparent"
+                    Duration="0:0:0.3" />
+            </Storyboard>
+            <Storyboard x:Key="OnMouseEnter">
+                <ColorAnimation
+                    Storyboard.TargetName="background"
+                    Storyboard.TargetProperty="Background.Color"
+                    To="{StaticResource ListItemHoveredBackground}"
+                    Duration="0:0:0.3" />
+            </Storyboard>
+
+            <Style x:Key="HoverableGrid" TargetType="{x:Type Grid}">
+                <Setter Property="Background" Value="Transparent" />
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="{StaticResource ListItemHoveredBackground}"
+                                    Duration="0:0:0.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="Transparent"
+                                    Duration="0:0:0.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <FontFamily x:Key="IconFonts">pack://application:,,,/Resources/icomoon.ttf#icomoon</FontFamily>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Xamls/ColorsStyles.xaml" />
+                <ResourceDictionary Source="/Xamls/ScrollViewerStyles.xaml" />
+                <ResourceDictionary Source="/Xamls/Images.xaml" />
+                <wpf:Constants />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

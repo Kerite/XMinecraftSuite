@@ -1,0 +1,149 @@
+﻿<Window
+    x:Class="XMinecraftSuite.Wpf.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="clr-namespace:XMinecraftSuite.Wpf.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:providers="clr-namespace:XMinecraftSuite.Core.Providers;assembly=XMinecraftSuite.Core"
+    xmlns:uc="clr-namespace:XMinecraftSuite.Wpf.UserControls"
+    xmlns:vm="clr-namespace:XMinecraftSuite.Wpf.ViewModels"
+    xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf"
+    Title="MainWindow"
+    Width="1200"
+    Height="700"
+    MinWidth="1200"
+    MinHeight="700"
+    d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Command="{x:Static wpf:App.QuitCommand}" Header="Exit" />
+                    <MenuItem Header="Open Mod Folder" />
+                </MenuItem>
+            </Menu>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="190" />
+                    <ColumnDefinition Width="*" MinWidth="300" />
+                    <ColumnDefinition
+                        Width="400"
+                        MinWidth="300"
+                        MaxWidth="800" />
+                </Grid.ColumnDefinitions>
+                <!--#region Left Panel-->
+                <Border
+                    Grid.Column="0"
+                    Margin="15,15,8,15"
+                    BorderBrush="{StaticResource BorderColorBrush}"
+                    BorderThickness="1"
+                    Style="{StaticResource HoverableBorder}">
+                    <ScrollViewer Padding="2" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl Name="ModProviders" ItemsSource="{Binding Source={x:Static providers:GlobalModProviderProxy.Instance}, Path=OnlineProviderProxy}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid MouseDown="ModProvider_Selected" Style="{StaticResource HoverableGrid}">
+                                        <Grid Height="30">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.Background>
+                                                <MultiBinding Converter="{StaticResource SelectableItemColorConverter}">
+                                                    <Binding Path="DataContext.ProviderKey" RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
+                                                    <Binding Path="MetaData.ProviderId" />
+                                                </MultiBinding>
+                                            </Grid.Background>
+                                            <Border
+                                                Grid.Column="0"
+                                                Width="23"
+                                                Height="23"
+                                                Padding="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                BorderBrush="{StaticResource BorderColorBrush}"
+                                                BorderThickness="0.5">
+                                                <Image Source="{Binding MetaData.Icon, Converter={StaticResource UniversalTypeConverter}}" />
+                                            </Border>
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="5,0,5,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding MetaData.ProviderName}" />
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <!--#endregion-->
+                <!--#region Center Panel-->
+                <Border
+                    x:Name="CenterPanel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Padding="8,15,8,15">
+                    <Grid>
+                        <TextBox
+                            x:Name="SearchKeyWord"
+                            Height="30"
+                            Margin="0,0,100,0"
+                            VerticalAlignment="Top"
+                            FontSize="20"
+                            PreviewKeyDown="SearchKeyWord_OnPreviewKeyDown" />
+                        <Button
+                            Width="80"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Click="button_Click"
+                            Content="Search" />
+                        <Grid Margin="0,50,0,0">
+                            <ScrollViewer
+                                Padding="2,0,2,0"
+                                behaviors:ScrollViewerBehavior.AutoScrollToTop="{Binding ResetSearchResult, Mode=TwoWay}"
+                                ScrollChanged="ScrollViewer_ScrollChanged"
+                                Style="{StaticResource BorderedScrollViewer}">
+                                <ItemsControl Name="SearchResults" ItemsSource="{Binding ModSearchResults}">
+                                    <ItemsControl.Resources>
+                                        <Style TargetType="uc:SearchModListItem">
+                                            <EventSetter Event="MouseDown" Handler="SearchModListItem_MouseDown" />
+                                        </Style>
+                                    </ItemsControl.Resources>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <uc:SearchModListItem />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <ProgressBar
+                                Height="5"
+                                VerticalAlignment="Top"
+                                IsIndeterminate="True"
+                                Visibility="{Binding Searching, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+                <GridSplitter
+                    Grid.Column="1"
+                    Width="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch"
+                    IsTabStop="False" />
+                <!--#region  Right Panel-->
+                <uc:ModDetailUserControl
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="8,15,15,15"
+                    ViewModel="{Binding SelectedModViewModel}" />
+                <!--#endregion-->
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  边框颜色  -->
+    <Color x:Key="BorderColor">#ABADB3</Color>
+    <SolidColorBrush x:Key="BorderColorBrush" Color="{StaticResource BorderColor}" />
+    <Color x:Key="HoveredBorderColor">#7eb4ea</Color>
+
+    <!--  滚动条颜色  -->
+    <Color x:Key="NormalScrollBarColor">#646465</Color>
+    <SolidColorBrush x:Key="NormalScrollBarColorBrush" Color="{StaticResource NormalScrollBarColor}" />
+    <Color x:Key="HoveredScrollBarColor">#82CAF4</Color>
+    <SolidColorBrush x:Key="HoveredScrollBarColorBrush" Color="{StaticResource HoveredScrollBarColor}" />
+    <Color x:Key="HoldingScrollBarColor">#569CD6</Color>
+    <SolidColorBrush x:Key="HoldingScrollBarColorBrush" Color="{StaticResource HoldingScrollBarColor}" />
+    <Color x:Key="ScrollBarBackground">Transparent</Color>
+    <SolidColorBrush x:Key="ScrollBarBackgroundBrush" Color="{StaticResource ScrollBarBackground}" />
+
+    <!--  ListItem  -->
+    <Color x:Key="ListItemHoveredBackground">#FFF0F8FF</Color>
+    <SolidColorBrush x:Key="ListItemHoveredBackgroundBrush" Color="{StaticResource ListItemHoveredBackground}" />
+    <Color x:Key="SelectedListItemBackground">AliceBlue</Color>
+    <SolidColorBrush x:Key="SelectedListItemBackgroundBrush" Color="{StaticResource SelectedListItemBackground}" />
+</ResourceDictionary>
