@@ -21,7 +21,7 @@ public class ModProviderProxy : ModProvidersRegistry, IModProvider
         return lists;
     }
 
-    Task<AbstractModDetailsResult> IModProvider.Details(string slug)
+    Task<AbstractModDetails> IModProvider.Details(string slug)
     {
         throw new ProxyCantExecuteException();
     }

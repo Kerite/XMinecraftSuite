@@ -46,27 +46,58 @@ public sealed class GlobalModProviderProxy : ViewModelBase, IModProvider
         set => this[metaData.ProviderId] = value;
     }
 
-    async Task<List<AbstractModSearchResult>> IModProvider.Search(string? modName, int limit, int offset,
-        SearchSortRule order, string[]? gameVersions, EnumModLoader[]? modLoaders)
+    async Task<List<AbstractModSearchResult>> IModProvider.Search(
+        string? modName,
+        int limit,
+        int offset,
+        SearchSortRule order,
+        string[]? gameVersions,
+        EnumModLoader[]? modLoaders
+    )
     {
         var lists = new List<AbstractModSearchResult>();
-        lists.AddRange(await ((IModProvider)LocalProviderProxy).Search(modName, limit, offset, order, gameVersions, modLoaders));
-        lists.AddRange(await ((IModProvider)OnlineProviderProxy).Search(modName, limit, offset, order, gameVersions, modLoaders));
+        lists.AddRange(
+            await ((IModProvider)LocalProviderProxy).Search(
+                modName,
+                limit,
+                offset,
+                order,
+                gameVersions,
+                modLoaders
+            )
+        );
+        lists.AddRange(
+            await ((IModProvider)OnlineProviderProxy).Search(
+                modName,
+                limit,
+                offset,
+                order,
+                gameVersions,
+                modLoaders
+            )
+        );
 
         return lists;
     }
 
-    Task<AbstractModDetailsResult> IModProvider.Details(string slug)
+    Task<AbstractModDetails> IModProvider.Details(string slug)
     {
         throw new ProxyCantExecuteException();
     }
 
-    async Task<List<AbstractModVersion>> IModProvider.ModVersions(string slug, EnumModLoader[]? modLoaders,
-        string[]? gameVersions)
+    async Task<List<AbstractModVersion>> IModProvider.ModVersions(
+        string slug,
+        EnumModLoader[]? modLoaders,
+        string[]? gameVersions
+    )
     {
         List<AbstractModVersion> lists = new();
-        lists.AddRange(await ((IModProvider)LocalProviderProxy).ModVersions(slug, modLoaders, gameVersions));
-        lists.AddRange(await ((IModProvider)OnlineProviderProxy).ModVersions(slug, modLoaders, gameVersions));
+        lists.AddRange(
+            await ((IModProvider)LocalProviderProxy).ModVersions(slug, modLoaders, gameVersions)
+        );
+        lists.AddRange(
+            await ((IModProvider)OnlineProviderProxy).ModVersions(slug, modLoaders, gameVersions)
+        );
 
         return lists;
     }

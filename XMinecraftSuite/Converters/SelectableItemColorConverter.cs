@@ -14,28 +14,47 @@ namespace XMinecraftSuite.Wpf.Converters
             }
             else if (value is string strValue1 && parameter is string strValue2)
             {
-                return strValue1 == strValue2 ? Constants.SelectedItemBrush : Constants.TransparentBrush;
+                return strValue1 == strValue2
+                    ? Constants.SelectedItemBrush
+                    : Constants.TransparentBrush;
             }
 
             return Constants.TransparentBrush;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture
+        )
         {
             throw new NotImplementedException();
         }
 
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(
+            object[] values,
+            Type targetType,
+            object parameter,
+            CultureInfo culture
+        )
         {
             if (values.Length == 2)
             {
-                return values[0] == values[1] ? Constants.SelectedItemBrush : Constants.TransparentBrush;
+                return values[0] == values[1]
+                    ? Constants.SelectedItemBrush
+                    : Constants.TransparentBrush;
             }
 
             throw new NotImplementedException();
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object[] ConvertBack(
+            object value,
+            Type[] targetTypes,
+            object parameter,
+            CultureInfo culture
+        )
         {
             throw new NotImplementedException();
         }

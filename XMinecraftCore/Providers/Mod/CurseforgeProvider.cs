@@ -31,7 +31,7 @@ namespace XMinecraftSuite.Core.Providers.Mod
             throw new NotImplementedException();
         }
 
-        Task<AbstractModDetailsResult> IModProvider.Details(string slug)
+        Task<AbstractModDetails> IModProvider.Details(string slug)
         {
             throw new NotImplementedException();
         }

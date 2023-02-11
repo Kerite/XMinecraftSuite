@@ -11,8 +11,13 @@ namespace XMinecraftSuite.Core.Models
         public Bitmap? Icon { get; private set; }
         public bool IsLocal { get; private set; }
 
-        public ModProviderMetaData(string id, string providerName, string? baseUrl = null, Bitmap? icon = null,
-            bool isLocal = false)
+        public ModProviderMetaData(
+            string id,
+            string providerName,
+            string? baseUrl = null,
+            Bitmap? icon = null,
+            bool isLocal = false
+        )
         {
             ProviderId = id;
             ApiBaseUrl = baseUrl;
@@ -23,7 +28,8 @@ namespace XMinecraftSuite.Core.Models
 
         public bool Equals(ModProviderMetaData? other)
         {
-            if (other == null) return false;
+            if (other == null)
+                return false;
             return other.ProviderId == this.ProviderId;
         }
 

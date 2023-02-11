@@ -1,109 +1,120 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using XMinecraftSuite.Core.Commons;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Providers;
-using XMinecraftSuite.Wpf.Commons;
 
 namespace XMinecraftSuite.Wpf.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ObservableObject
 {
+    [ObservableProperty]
     private bool _loading;
+
+    [ObservableProperty]
     private string _keyWord = string.Empty;
+
+    [ObservableProperty]
     private string? _selectedModSlug;
+
+    [ObservableProperty]
     private bool _resetSearchResult;
+
+    [ObservableProperty]
     private string _providerKey = "modrinth";
 
-    public delegate void ModSelectedEventHandler(string? selectedSlug);
+    [ObservableProperty]
+    private List<AbstractModSearchResult> _modSearchResults = new();
 
-    public event ModSelectedEventHandler? ModSelected;
+    [ObservableProperty]
+    private ModDetailsViewModel? selectedModViewModel;
 
-    public List<AbstractModSearchResult> ModSearchResults { get; private set; } = new();
-    public ModDetailsViewModel SelectedModViewModel { get; } = new();
+    [ObservableProperty]
+    private AbstractModDetails? _modDetails;
 
-    public string ProviderKey
+    [ObservableProperty]
+    private bool _resetSelectedMod;
+
+    [RelayCommand]
+    public async Task Search(string? keyWord = null)
     {
-        get => _providerKey;
-        set
-        {
-            _providerKey = value;
-            RaisePropertyChangedEvent(nameof(ProviderKey));
-        }
-    }
-
-    public bool ResetSearchResult
-    {
-        get => _resetSearchResult;
-        set
-        {
-            _resetSearchResult = value;
-            RaisePropertyChangedEvent(nameof(ResetSearchResult));
-        }
-    }
-
-    public bool Searching
-    {
-        get => _loading;
-        private set
-        {
-            _loading = value;
-            RaisePropertyChangedEvent(nameof(Searching));
-        }
-    }
-
-    public string? SelectedModSlug
-    {
-        get => _selectedModSlug;
-        set
-        {
-            _selectedModSlug = value;
-            RaisePropertyChangedEvent(nameof(SelectedModSlug));
-            ModSelected?.Invoke(value);
-        }
-    }
-
-    public async void Search(string? keyWord = null)
-    {
-        if (Searching)
+        if (Loading)
         {
             return;
         }
 
         ModSearchResults = new List<AbstractModSearchResult>();
-        RaisePropertyChangedEvent(nameof(ModSearchResults));
 
-        Searching = true;
-        _keyWord = keyWord ?? string.Empty;
+        Loading = true;
+        KeyWord = keyWord ?? string.Empty;
 
-        var modProvider = GlobalModProviderProxy.Instance[_providerKey];
+        var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
         ModSearchResults = string.IsNullOrEmpty(keyWord)
             ? (await modProvider.Search()).ToList()
-            : (await modProvider.Search(_keyWord)).ToList();
-        RaisePropertyChangedEvent(nameof(ModSearchResults));
+            : (await modProvider.Search(KeyWord)).ToList();
 
-        SelectedModSlug = ModSearchResults[0].Slug;
+        if (ModSearchResults.Count > 0)
+        {
+            SelectedModSlug = ModSearchResults[0].Slug;
+        }
+        else
+        {
+            SelectedModSlug = string.Empty;
+        }
 
-        Searching = false;
+        Loading = false;
     }
 
-    public async void LoadMore()
+    [RelayCommand]
+    public async Task LoadMore()
     {
-        if (Searching)
+        if (Loading)
         {
             return;
         }
 
-        Searching = true;
+        Loading = true;
 
         var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
-        ModSearchResults = ModSearchResults.Concat(string.IsNullOrEmpty(_keyWord)
-                ? await modProvider.Search()
-                : await modProvider.Search(_keyWord))
+        ModSearchResults = ModSearchResults
+            .Concat(
+                string.IsNullOrEmpty(KeyWord)
+                    ? await modProvider.Search()
+                    : await modProvider.Search(KeyWord)
+            )
             .ToList();
 
-        RaisePropertyChangedEvent(nameof(ModSearchResults));
-        Searching = false;
+        Loading = false;
     }
+
+    [RelayCommand]
+    private void SelectMod(string? slug)
+    {
+        SelectedModSlug = slug;
+    }
+
+    partial void OnSelectedModSlugChanged(string? value)
+    {
+        _cancellationTokenSource.Cancel();
+        var newCancellationTokenSource = new CancellationTokenSource();
+        Task.Run(
+            () =>
+            {
+                if (SelectedModSlug == null) {  }
+                else
+                {
+                    var data = GlobalModProviderProxy.Instance["modrinth"]
+                        .Details(SelectedModSlug)
+                        .Result;
+                    if (!newCancellationTokenSource.IsCancellationRequested)
+                    {
+                        ModDetails = data;
+                    }
+                }
+            },
+            newCancellationTokenSource.Token
+        );
+        _cancellationTokenSource = newCancellationTokenSource;
+    }
+
+    private CancellationTokenSource _cancellationTokenSource = new();
 }

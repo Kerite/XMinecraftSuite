@@ -11,7 +11,7 @@ namespace XMinecraftSuite.Wpf.Converters
     public class VisibleOrNullConverter : IValueConverter
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -29,7 +29,12 @@ namespace XMinecraftSuite.Wpf.Converters
             return Visibility.Visible;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture
+        )
         {
             throw new NotImplementedException();
         }

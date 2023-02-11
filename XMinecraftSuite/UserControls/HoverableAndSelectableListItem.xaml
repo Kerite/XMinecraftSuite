@@ -10,7 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Style="{StaticResource HoverableGrid}">
         <Grid>
             <ContentControl Content="{Binding InnerContent, ElementName=HoverableAndSelectableItem}" />
         </Grid>

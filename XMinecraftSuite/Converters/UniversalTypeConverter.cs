@@ -14,10 +14,12 @@ namespace XMinecraftSuite.Wpf.Converters
         {
             if (value is Bitmap bitmapValue)
             {
-                return Imaging.CreateBitmapSourceFromHBitmap(bitmapValue.GetHbitmap(),
+                return Imaging.CreateBitmapSourceFromHBitmap(
+                    bitmapValue.GetHbitmap(),
                     IntPtr.Zero,
                     Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
+                    BitmapSizeOptions.FromEmptyOptions()
+                );
             }
 
             if (value is string && targetType == typeof(Uri))
@@ -28,7 +30,12 @@ namespace XMinecraftSuite.Wpf.Converters
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture
+        )
         {
             throw new NotImplementedException();
         }

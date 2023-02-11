@@ -34,7 +34,7 @@ namespace XMinecraftSuite.Core.Providers.Mod
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
-        public Task<AbstractModDetailsResult> Details(string slug);
+        public Task<AbstractModDetails> Details(string slug);
 
         /// <summary>
         /// 获取Mod版本列表

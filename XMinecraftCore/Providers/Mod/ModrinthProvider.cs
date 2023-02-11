@@ -69,7 +69,7 @@ namespace XMinecraftSuite.Core.Providers.Mod
                 .ToList();
         }
 
-        async Task<AbstractModDetailsResult> IModProvider.Details(string slug)
+        async Task<AbstractModDetails> IModProvider.Details(string slug)
         {
             var response = await HttpClient.GetAsync($"project/{slug}");
 
