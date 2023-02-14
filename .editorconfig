@@ -236,3 +236,6 @@ insert_final_newline = true
 tab_width = 4
 indent_size = 4
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
+
+# IDE0044: 添加只读修饰符
+dotnet_diagnostic.IDE0044.severity = silent
