@@ -27,20 +27,14 @@
         <sys:Double x:Key="DownloadButtonSize">20</sys:Double>
     </Window.Resources>
     <DockPanel Margin="8">
-        <Grid Height="32" DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.Resources>
-                <Style TargetType="{x:Type Control}">
-                    <Setter Property="Height" Value="20" />
-                </Style>
-            </Grid.Resources>
             <ComboBox Grid.Column="0"
                   Height="24"
-                  Margin="0,0,0,5"
                   VerticalAlignment="Top"
                   VerticalContentAlignment="Center"
                   FontSize="{DynamicResource NormalFontSize}"
@@ -87,6 +81,7 @@
                   IsChecked="{Binding IncludeSnapshot}"
                   Content="Include Snapshot" />
         </Grid>
+        <Rectangle Height="8" DockPanel.Dock="Top" />
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -95,7 +90,7 @@
             <ProgressBar Grid.Row="0"
                   Height="4"
                   VerticalAlignment="Top"
-                  Visibility="{Binding LoadingModVersion, Converter={c:BooleanToVisibilityConverter}}"
+                  Visibility="{Binding LoadingModVersion, Converter={StaticResource DefaultVisibilityConverter}}"
                   IsIndeterminate="True" />
             <ItemsControl Grid.Row="0"
                   Style="{StaticResource ScrollerItemsControl}"
@@ -151,8 +146,10 @@
             </ItemsControl>
             <CheckBox Name="ShowChangeLogCheckBox"
                   Grid.Row="1"
-                  Margin="2"
                   IsChecked="{Binding ShowChangeLog, FallbackValue=True}">
+                <CheckBox.Margin>
+                    <Thickness Top="8" />
+                </CheckBox.Margin>
                 Show Changelog
             </CheckBox>
         </Grid>

@@ -75,7 +75,7 @@
                 <ProgressBar Height="5"
                       VerticalAlignment="Top"
                       IsIndeterminate="True"
-                      Visibility="{Binding Searching, Converter={c:BooleanToVisibilityConverter}}">
+                      Visibility="{Binding Searching, Converter={StaticResource DefaultVisibilityConverter}}">
                 </ProgressBar>
             </Grid>
         </Grid>

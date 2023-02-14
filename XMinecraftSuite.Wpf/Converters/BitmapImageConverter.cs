@@ -5,14 +5,21 @@ using System.Windows.Media.Imaging;
 
 namespace XMinecraftSuite.Wpf.Converters
 {
-    public class BitmapImageConverter : TypedValueConverter<string, ImageSource>
+    public class BitmapImageConverter : TypedValueConverter<string, ImageSource?>
     {
-        public int? Height { get; set; } = null;
-        public int? Width { get; set; } = null;
+        public int? Height { get; set; }
+        public int? Width { get; set; }
+        public BitmapImage? FallbackImage { get; set; }
 
         #region 方法 Methods
-        protected override ImageSource NewConvert(string source, Type targetType, object parameter, CultureInfo culture)
+        protected override ImageSource? NewConvert(
+            string source,
+            Type targetType,
+            object parameter,
+            CultureInfo culture)
         {
+            if (string.IsNullOrEmpty(source))
+                return FallbackImage;
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(source);
@@ -31,7 +38,7 @@ namespace XMinecraftSuite.Wpf.Converters
         }
 
         protected override string NewConvertBack(
-            ImageSource back,
+            ImageSource? back,
             Type targetType,
             object parameter,
             CultureInfo culture)

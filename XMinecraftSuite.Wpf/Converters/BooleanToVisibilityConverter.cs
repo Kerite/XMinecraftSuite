@@ -6,7 +6,7 @@ namespace XMinecraftSuite.Wpf.Converters
     public class BooleanToVisibilityConverter : BaseValueConverter
     {
         public bool IsReserve { get; set; }
-        public bool UseHidder { get; set; }
+        public bool UseHidden { get; set; }
 
         #region 方法 Methods
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -18,7 +18,7 @@ namespace XMinecraftSuite.Wpf.Converters
             }
             if (boolValue)
                 return Visibility.Visible;
-            return UseHidder ? Visibility.Hidden : Visibility.Collapsed;
+            return UseHidden ? Visibility.Hidden : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
