@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="XMinecraftSuite.Wpf.Views.UserControls.SearchModListItem"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:am="clr-namespace:XMinecraftSuite.Core.Models.Abstracts;assembly=XMinecraftSuite.Core"
+      xmlns:converter="clr-namespace:XMinecraftSuite.Wpf.Converters"
+      xmlns:root="clr-namespace:XMinecraftSuite.Wpf"
+      d:DataContext="{d:DesignInstance Type=am:AbstractModSearchResult}"
+      d:Background="White"
+      d:DesignWidth="700"
+      mc:Ignorable="d">
+    <Grid x:Name="container">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--#region Mod图标-->
+        <Border x:Name="Icon"
+              Grid.Row="0"
+              Grid.Column="0"
+              Width="80"
+              Height="80"
+              Margin="10"
+              VerticalAlignment="Top"
+              SnapsToDevicePixels="True"
+              UseLayoutRounding="True"
+              Style="{StaticResource RoundedBorder}">
+            <Border.Background>
+                <ImageBrush ImageSource="{Binding ImageUrl, Converter={converter:BitmapImageConverter Height=80, Width=80}}">
+                </ImageBrush>
+            </Border.Background>
+        </Border>
+        <!--#endregion-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="70" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Height="15"
+                  Margin="5"
+                  VerticalAlignment="Top"
+                  d:Text="Fabric API"
+                  FontStretch="Expanded"
+                  FontWeight="Bold"
+                  Text="{Binding Name}" />
+            <TextBlock Grid.Row="1"
+                  Grid.Column="0"
+                  Margin="5"
+                  d:Text="Mod Description Here"
+                  Text="{Binding Description}"
+                  TextWrapping="Wrap" />
+            <Button Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="5"
+                  Command="{x:Static root:Commands.DownloadModFileDialogCommand}"
+                  CommandParameter="{Binding Slug}"
+                  IsTabStop="False">
+                <TextBlock>
+                    <TextBlock FontFamily="{StaticResource IconFonts}" Text="&#xe9c7;" />
+                    下载
+                </TextBlock>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

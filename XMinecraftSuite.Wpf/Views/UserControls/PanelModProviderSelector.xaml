@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="XMinecraftSuite.Wpf.Views.UserControls.PanelModProviderSelector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XMinecraftSuite.Wpf.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:providers="clr-namespace:XMinecraftSuite.Core.Providers;assembly=XMinecraftSuite.Core"
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800">
+    <Border Margin="15,15,8,15"
+        BorderBrush="{StaticResource BorderColorBrush}"
+        BorderThickness="1"
+        Style="{StaticResource HoverableBorder}">
+        <ScrollViewer Padding="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Source={x:Static providers:GlobalModProviderProxy.Instance}, Path=OnlineProviderProxy}" Name="ModProviders">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Style="{StaticResource HoverableGrid}">
+                            <Grid Height="30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.Background>
+                                    <MultiBinding Converter="{StaticResource SelectableItemColorConverter}">
+                                        <Binding Path="DataContext.ProviderKey" RelativeSource="{RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}" />
+                                        <Binding Path="MetaData.ProviderId" />
+                                    </MultiBinding>
+                                </Grid.Background>
+                                <Border Grid.Column="0"
+                                    Width="23"
+                                    Height="23"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{StaticResource BorderColorBrush}"
+                                    BorderThickness="0.5"
+                                    Padding="2">
+                                    <Image Source="{Binding MetaData.Icon, Converter={StaticResource UniversalTypeConverter}}" />
+                                </Border>
+                                <TextBlock Grid.Column="1"
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding MetaData.ProviderName}" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
+</UserControl>

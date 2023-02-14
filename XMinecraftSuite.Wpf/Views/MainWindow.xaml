@@ -1,0 +1,61 @@
+﻿<Window x:Class="XMinecraftSuite.Wpf.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:XMinecraftSuite.Wpf.Views.UserControls"
+        xmlns:vm="clr-namespace:XMinecraftSuite.Wpf.ViewModels"
+        xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf"
+        xmlns:c="clr-namespace:XMinecraftSuite.Wpf.Converters"
+        Title="MainWindow"
+        Width="1200"
+        Height="700"
+        MinWidth="1200"
+        MinHeight="700"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Command="{x:Static wpf:Commands.QuitCommand}" Header="Exit" />
+                    <MenuItem Header="Open Mod Folder" />
+                </MenuItem>
+            </Menu>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="190" />
+                    <ColumnDefinition Width="*" MinWidth="300" />
+                    <ColumnDefinition Width="400" MinWidth="300" MaxWidth="800" />
+                </Grid.ColumnDefinitions>
+                <!--#region Left Panel-->
+                <uc:PanelModProviderSelector Grid.Column="0" />
+                <!--#endregion Left Panel-->
+                <!--#region Center Panel-->
+                <uc:SearchModPanel Grid.Row="0"
+                                   Grid.Column="1"
+                                   Margin="8,15,8,15"
+                                   DataContext="{Binding SearchModListViewModel}" />
+                <!--#endregion-->
+                <GridSplitter Grid.Row="0"
+                              Grid.Column="1"
+                              Width="2"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Stretch"
+                              IsTabStop="False" />
+                <!--#region Right Panel-->
+                <uc:ModDetailPanel x:Name="RightPanel"
+                                   Grid.Row="0"
+                                   Grid.Column="2"
+                                   Margin="8,15,15,15"
+                                   DataContext="{Binding ModDetailsViewModel}" />
+                <!--#endregion Right Panel-->
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
