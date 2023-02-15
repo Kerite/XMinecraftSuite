@@ -1,10 +1,9 @@
-﻿namespace XMinecraftSuite.Core.Models.Enums
+﻿namespace XMinecraftSuite.Core.Models.Enums;
+
+public enum EnumVersionType
 {
-    public enum EnumVersionType
-    {
-        Release,
-        Snapshot,
-        OldAlpha,
-        OldBeta
-    }
+    Release,
+    Snapshot,
+    OldAlpha,
+    OldBeta
 }

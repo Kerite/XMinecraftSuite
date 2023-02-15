@@ -1,9 +1,8 @@
-﻿namespace XMinecraftSuite.Core.Models.Enums
+﻿namespace XMinecraftSuite.Core.Models.Enums;
+
+public enum EnumModVersionType
 {
-    public enum EnumModVersionType
-    {
-        Alpha,
-        Beta,
-        Release
-    }
+    Alpha,
+    Beta,
+    Release
 }

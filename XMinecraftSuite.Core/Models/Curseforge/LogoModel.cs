@@ -1,8 +1,7 @@
-﻿namespace XMinecraftSuite.Core.Models.Curseforge
+﻿namespace XMinecraftSuite.Core.Models.Curseforge;
+
+public sealed class LogoModel
 {
-    public sealed class LogoModel
-    {
-        public int Id;
-        public string ThumbnailUrl;
-    }
+    public int Id;
+    public string ThumbnailUrl;
 }

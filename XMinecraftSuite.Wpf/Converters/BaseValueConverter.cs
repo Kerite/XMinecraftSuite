@@ -2,19 +2,18 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace XMinecraftSuite.Wpf.Converters
+namespace XMinecraftSuite.Wpf.Converters;
+
+public abstract class BaseValueConverter : MarkupExtension, IValueConverter
 {
-    public abstract class BaseValueConverter : MarkupExtension, IValueConverter
+    #region 方法 Methods
+    public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
+
+    public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        #region 方法 Methods
-        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
-
-        public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
-        #endregion
+        return this;
     }
+    #endregion
 }

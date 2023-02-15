@@ -1,21 +1,21 @@
 ﻿using System.Windows.Controls;
 
-namespace XMinecraftSuite.Wpf.Views.UserControls
+namespace XMinecraftSuite.Wpf.Views.UserControls;
+
+/// <summary>
+///     ModDetailUserControl.xaml 的交互逻辑
+/// </summary>
+public partial class ModDetailPanel : UserControl
 {
+    #region Constructors
     /// <summary>
-    /// ModDetailUserControl.xaml 的交互逻辑
+    ///     Constructor
     /// </summary>
-    public partial class ModDetailPanel : UserControl
+
+    //Constructors
+    public ModDetailPanel()
     {
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        //Constructors
-        public ModDetailPanel()
-        {
-            InitializeComponent();
-        }
-        #endregion
+        InitializeComponent();
     }
+    #endregion
 }

@@ -1,9 +1,8 @@
-﻿namespace XMinecraftSuite.Core.Models.Curseforge
+﻿namespace XMinecraftSuite.Core.Models.Curseforge;
+
+public sealed class AuthorModel
 {
-    public sealed class AuthorModel
-    {
-        public int Id;
-        public string Name;
-        public string Url;
-    }
+    public int Id;
+    public string Name;
+    public string Url;
 }

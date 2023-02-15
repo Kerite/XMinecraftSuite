@@ -1,9 +1,8 @@
 ﻿using XMinecraftSuite.Core.Exceptions;
 
-namespace XMinecraftSuite.Core.Commons
+namespace XMinecraftSuite.Core.Commons;
+
+public class ExceptionHelper
 {
-    public class ExceptionHelper
-    {
-        public static ProxyCantExecuteException ProxyCantExecuteException => new();
-    }
+    public static ProxyCantExecuteException ProxyCantExecuteException => new();
 }

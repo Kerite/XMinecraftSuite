@@ -1,9 +1,8 @@
-﻿namespace XMinecraftSuite.Core.Models.Curseforge
+﻿namespace XMinecraftSuite.Core.Models.Curseforge;
+
+public sealed class CategoryModel
 {
-    public sealed class CategoryModel
-    {
-        public int Id;
-        public string Name;
-        public string Slug;
-    }
+    public int Id;
+    public string Name;
+    public string Slug;
 }

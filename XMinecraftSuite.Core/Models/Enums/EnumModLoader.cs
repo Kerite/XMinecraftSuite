@@ -1,9 +1,8 @@
-﻿namespace XMinecraftSuite.Core.Models.Enums
+﻿namespace XMinecraftSuite.Core.Models.Enums;
+
+public enum EnumModLoader
 {
-    public enum EnumModLoader
-    {
-        Forge,
-        Fabric,
-        Quilt
-    }
+    Forge,
+    Fabric,
+    Quilt
 }

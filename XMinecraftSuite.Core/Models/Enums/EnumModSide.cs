@@ -1,11 +1,10 @@
-﻿namespace XMinecraftSuite.Core.Models.Enums
+﻿namespace XMinecraftSuite.Core.Models.Enums;
+
+public enum EnumModSide
 {
-    public enum EnumModSide
-    {
-        ServerSide,
-        ClientSide,
-        Both,
-        Optional,
-        Unknown
-    }
+    ServerSide,
+    ClientSide,
+    Both,
+    Optional,
+    Unknown
 }

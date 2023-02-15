@@ -4,44 +4,43 @@ using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Models.Enums;
 using XMinecraftSuite.Core.Providers.Mod;
 
-namespace XMinecraftSuite.Core.Providers
+namespace XMinecraftSuite.Core.Providers;
+
+public class ModProviderProxy : ModProvidersRegistry, IModProvider
 {
-    public class ModProviderProxy : ModProvidersRegistry, IModProvider
+    ModProviderMetaData IModProvider.MetaData { get; } = new()
     {
-        ModProviderMetaData IModProvider.MetaData { get; } = new ModProviderMetaData("proxy", "Proxy");
+        ProviderId = "proxy",
+        ProviderName = "Mod Providers Proxy",
+        Icon = null,
+        IsLocal = false
+    };
 
-        Task<AbstractModDetails> IModProvider.GetModDetailAsync(string slug) { throw new ProxyCantExecuteException(); }
+    Task<AbstractModDetails> IModProvider.GetModDetailAsync(string slug)
+    {
+        throw new ProxyCantExecuteException();
+    }
 
-        async Task<List<AbstractModVersion>> IModProvider.GetModVersionsAsync(
-            string slug,
-            EnumModLoader[]? modLoaders,
-            string[]? gameVersions)
-        {
-            List<AbstractModVersion> lists = new();
-            foreach (var modProvider in Providers)
-            {
-                lists.AddRange(await modProvider.GetModVersionsAsync(slug, modLoaders, gameVersions));
-            }
-            return lists;
-        }
+    async Task<List<AbstractModVersion>> IModProvider.GetModVersionsAsync(string slug, EnumModLoader[]? modLoaders,
+        string[]? gameVersions)
+    {
+        List<AbstractModVersion> lists = new();
+        foreach (var modProvider in Providers)
+            lists.AddRange(await modProvider.GetModVersionsAsync(slug, modLoaders, gameVersions));
+        return lists;
+    }
 
-        string IModProvider.OriginUrl(string slug) { throw new ProxyCantExecuteException(); }
+    string IModProvider.OriginUrl(string slug)
+    {
+        throw new ProxyCantExecuteException();
+    }
 
-        async Task<List<AbstractModSearchResult>> IModProvider.SearchModAsync(
-            string? modName,
-            int limit,
-            int offset,
-            SearchSortRule order,
-            string[]? gameVersions,
-            EnumModLoader[]? modLoaders)
-        {
-            var lists = new List<AbstractModSearchResult>();
-            foreach (var modProvider in Providers)
-            {
-                lists.AddRange(
-                    await modProvider.SearchModAsync(modName, limit, offset, order, gameVersions, modLoaders));
-            }
-            return lists;
-        }
+    async Task<List<AbstractModSearchResult>> IModProvider.SearchModAsync(string? modName, int limit, int offset,
+        SearchSortRule order, string[]? gameVersions, EnumModLoader[]? modLoaders)
+    {
+        var lists = new List<AbstractModSearchResult>();
+        foreach (var modProvider in Providers)
+            lists.AddRange(await modProvider.SearchModAsync(modName, limit, offset, order, gameVersions, modLoaders));
+        return lists;
     }
 }

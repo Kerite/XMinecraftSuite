@@ -1,8 +1,7 @@
-﻿namespace XMinecraftSuite.Wpf.Messages
-{
-    public record ModProviderSelectedMessage(string Provider);
+﻿namespace XMinecraftSuite.Wpf.Messages;
 
-    public record ModSelectedMessage(string ModSlug);
+public record ModProviderSelectedMessage(string Provider);
 
-    public record ResetScrollBar(string ScrollBar);
-}
+public record ModSelectedMessage(string ModSlug);
+
+public record ResetScrollBar(string ScrollBar);
