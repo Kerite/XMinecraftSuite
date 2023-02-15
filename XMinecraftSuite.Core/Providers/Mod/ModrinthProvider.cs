@@ -5,6 +5,7 @@ using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Models.Enums;
 using XMinecraftSuite.Core.Models.Modrinth;
+using XMinecraftSuite.Core.Properties;
 
 namespace XMinecraftSuite.Core.Providers.Mod;
 
@@ -20,13 +21,14 @@ public class ModrinthProvider : IModProvider
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public ModProviderMetaData MetaData => new()
-    {
-        ProviderId = "modrinth",
-        ProviderName = "Modrinth",
-        IsLocal = false,
-        Icon = ((IModProvider)this).LoadBitmap("XMinecraft.Core.Medias.Modrinth.png")
-    };
+    public ModProviderMetaData MetaData =>
+        new()
+        {
+            ProviderId = "modrinth",
+            ProviderName = "Modrinth",
+            IsLocal = false,
+            Icon = ((IModProvider)this).LoadBitmap(Resources.Modrinth)
+        };
 
     async Task<AbstractModDetails> IModProvider.GetModDetailAsync(string slug)
     {
@@ -103,10 +105,5 @@ public class ModrinthProvider : IModProvider
         return hitsList.AsEnumerable()
             .Select(result => JsonSerializer.Deserialize<ModrinthSearchResult>(result.ToJsonString()))
             .ToList<AbstractModSearchResult>();
-    }
-
-    private string GetDependencyFromVersionId(string version)
-    {
-        throw new NotImplementedException();
     }
 }

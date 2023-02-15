@@ -9,6 +9,22 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
 {
     private CancellationTokenSource _cancellationTokenSource = new();
 
+    [ObservableProperty] private string _keyWord = string.Empty;
+
+    [ObservableProperty] private bool _loading;
+
+    [ObservableProperty] private AbstractModDetails? _modDetails;
+
+    [ObservableProperty] private List<AbstractModSearchResult> _modSearchResults = new();
+
+    [ObservableProperty] private string _providerKey = "modrinth";
+
+    [ObservableProperty] private bool _resetSearchResult;
+
+    [ObservableProperty] private bool _resetSelectedMod;
+
+    [ObservableProperty] private string? _selectedModSlug;
+
     public SearchModListViewModel SearchModListViewModel { get; set; } = new()
     {
         IsActive = true
@@ -24,18 +40,15 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
         IsActive = true
     };
 
-    #region 命令 RelayCommands
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
+
     [RelayCommand]
     public void SelectMod(string? slug)
     {
         SelectedModSlug = slug;
-    }
-    #endregion
-
-    #region 方法 Methods
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
     }
 
     partial void OnSelectedModSlugChanged(string? value)
@@ -53,23 +66,4 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
         }, newCancellationTokenSource.Token);
         _cancellationTokenSource = newCancellationTokenSource;
     }
-    #endregion
-
-    #region ObservableProperties
-    [ObservableProperty] private string _keyWord = string.Empty;
-
-    [ObservableProperty] private bool _loading;
-
-    [ObservableProperty] private AbstractModDetails? _modDetails;
-
-    [ObservableProperty] private List<AbstractModSearchResult> _modSearchResults = new();
-
-    [ObservableProperty] private string _providerKey = "modrinth";
-
-    [ObservableProperty] private bool _resetSearchResult;
-
-    [ObservableProperty] private bool _resetSelectedMod;
-
-    [ObservableProperty] private string? _selectedModSlug;
-    #endregion
 }

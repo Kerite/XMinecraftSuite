@@ -11,7 +11,6 @@ public class BitmapImageConverter : TypedValueConverter<string, ImageSource?>
     public int? Width { get; set; }
     public BitmapImage? FallbackImage { get; set; }
 
-    #region 方法 Methods
     protected override ImageSource? NewConvert(string source, Type targetType, object parameter, CultureInfo culture)
     {
         if (string.IsNullOrEmpty(source))
@@ -31,5 +30,4 @@ public class BitmapImageConverter : TypedValueConverter<string, ImageSource?>
     {
         throw new NotImplementedException();
     }
-    #endregion
 }

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿
 using SkiaSharp;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Abstracts;
@@ -17,6 +17,11 @@ public interface IModProvider
     /// <returns></returns>
     public ModProviderMetaData MetaData { get; }
 
+    public SKBitmap LoadBitmap(byte[] bytes)
+    {
+        return SKBitmap.Decode(bytes);
+    }
+
     /// <summary>
     ///     获取Mod详情
     /// </summary>
@@ -33,16 +38,6 @@ public interface IModProvider
     /// <returns></returns>
     public Task<List<AbstractModVersion>> GetModVersionsAsync(string slug, EnumModLoader[]? modLoaders = null,
         string[]? gameVersions = null);
-
-    public SKBitmap LoadBitmap(string resourceKey)
-    {
-        //var assembly = GetType().GetTypeInfo().Assembly;
-        var assembly = Assembly.GetExecutingAssembly();
-        using (var stream = assembly.GetManifestResourceStream(resourceKey))
-        {
-            return SKBitmap.Decode(stream);
-        }
-    }
 
     /// <summary>
     ///     获取原始的网页

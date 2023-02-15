@@ -31,19 +31,25 @@
     <PackageReference Include="CommunityToolkit.Common" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
-    <PackageReference Include="Fody" Version="6.6.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Resourcer.Fody" Version="1.8.1" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
     <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
