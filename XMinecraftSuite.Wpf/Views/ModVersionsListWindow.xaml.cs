@@ -10,12 +10,12 @@ public partial class ModVersionsListWindow : Window
 {
     public delegate ModVersionsListWindow ModVersionsListWindowFactory(string key);
 
-    public ModVersionsWindowViewModel ViewModel { get; }
-
     public ModVersionsListWindow(ModVersionsWindowViewModel.ModVersionsWindowViewModelFactory factory, string slug)
     {
         InitializeComponent();
         ViewModel = factory(slug);
         DataContext = ViewModel;
     }
+
+    public ModVersionsWindowViewModel ViewModel { get; }
 }

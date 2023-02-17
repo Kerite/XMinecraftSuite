@@ -11,6 +11,11 @@ namespace XMinecraftSuite.Wpf.Views.UserControls;
 [ContentProperty("InnerContent")]
 public partial class HoverableAndSelectableListItem : UserControl
 {
+    public HoverableAndSelectableListItem()
+    {
+        InitializeComponent();
+    }
+
     public ICommand Command
     {
         get => (ICommand)GetValue(CommandProperty);
@@ -39,11 +44,6 @@ public partial class HoverableAndSelectableListItem : UserControl
     {
         get => (string)GetValue(SelectedKeyProperty);
         set => SetValue(SelectedKeyProperty, value);
-    }
-
-    public HoverableAndSelectableListItem()
-    {
-        InitializeComponent();
     }
 
     #region 依赖属性 DependencyProperties

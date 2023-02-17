@@ -29,29 +29,41 @@
   </ItemGroup>
 
   <ItemGroup>
+    <COMReference Include="IDManLib">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>ecf21eab-3aa8-4355-82be-f777990001dd</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="App.config" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AsyncErrorHandler.Fody" Version="1.3.0" />
     <PackageReference Include="CliWrap" Version="3.6.0" />
-    <PackageReference Include="Costura.Fody" Version="5.8.0-alpha0098">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
+    <PackageReference Include="Equals.Fody" Version="4.0.2">
+      <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Fody" Version="6.6.4"> 
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-    <PackageReference Include="Resourcer.Fody" Version="1.8.1" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\XMinecraftSuite.Core\XMinecraftSuite.Core.csproj">
-      <EmbedInteropTypes></EmbedInteropTypes>
-      <ReferenceOutputAssembly></ReferenceOutputAssembly>
-    </ProjectReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="ToString.Fody" Version="1.11.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Visualize.Fody" Version="1.2.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -94,7 +106,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dlls\" />
     <Folder Include="Resources\Themes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XMinecraftSuite.GuiBase\XMinecraftSuite.Gui.csproj" />
   </ItemGroup>
 
   <ItemGroup>

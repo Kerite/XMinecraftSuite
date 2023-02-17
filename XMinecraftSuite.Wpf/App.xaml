@@ -2,8 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:converters="clr-namespace:XMinecraftSuite.Wpf.Converters"
-      xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf"
-      StartupUri="Views/MainWindow.xaml">
+      xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf">
     <Application.Resources>
         <ResourceDictionary>
             <converters:UniversalTypeConverter x:Key="UniversalTypeConverter" />

@@ -15,7 +15,7 @@
         <ItemsControl Style="{StaticResource ScrollerItemsControl}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:HoverableAndSelectableListItem SelectedKey="" />
+                    <local:HoverableAndSelectableListItem SelectedKey="{}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

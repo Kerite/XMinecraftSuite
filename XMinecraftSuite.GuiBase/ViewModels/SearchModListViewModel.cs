@@ -10,6 +10,11 @@ namespace XMinecraftSuite.Gui.ViewModels;
 
 public partial class SearchModListViewModel : ObservableRecipient, IRecipient<GuiMessages.ModProviderSelectedMessage>
 {
+    public SearchModListViewModel()
+    {
+        _ = Search();
+    }
+
     public ObservableCollection<AbstractModSearchResult> ModSearchResults { get; set; } = new();
 
     [ObservableProperty]
@@ -18,12 +23,12 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
 
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private bool reset = false;
+    private bool reset;
 
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     [NotifyCanExecuteChangedFor(nameof(SearchCommand))]
-    private bool searching = false;
+    private bool searching;
 
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -32,11 +37,6 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string selectedSlug = string.Empty;
-
-    public SearchModListViewModel()
-    {
-        _ = Search();
-    }
 
     public void Receive(GuiMessages.ModProviderSelectedMessage message)
     {

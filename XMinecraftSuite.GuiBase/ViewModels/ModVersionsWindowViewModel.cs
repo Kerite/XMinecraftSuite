@@ -11,6 +11,49 @@ namespace XMinecraftSuite.Gui.ViewModels;
 
 public partial class ModVersionsWindowViewModel : ObservableRecipient
 {
+    public delegate ModVersionsWindowViewModel ModVersionsWindowViewModelFactory(string slug);
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
+    private static List<MinecraftVersionModel>? allGameVersions;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
+    [NotifyPropertyChangedFor(nameof(RenderedModVersions))]
+    private List<AbstractModVersion> allModVersions = new();
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
+    private bool includeSnapshot = false;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SyncMinecraftVersionsCommand))]
+    private bool loadingMinecraftVersion = false;
+
+    [ObservableProperty]
+    private bool loadingModVersion = false;
+
+    [ObservableProperty]
+    private string providerKey = "modrinth";
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RenderedModVersions))]
+    private string? selectedGameVersion;
+
+    [ObservableProperty]
+    private string? selectedModVersionId;
+
+    [ObservableProperty]
+    private bool showChangeLog = true;
+
+    public ModVersionsWindowViewModel(string slug)
+    {
+        Slug = slug;
+        if (allGameVersions == null) { _ = SyncMinecraftVersions(); }
+
+        _ = SyncModVersions();
+    }
+
     public string Slug { get; }
 
     public List<MinecraftVersionModel> RenderedMinecraftVersions
@@ -34,47 +77,6 @@ public partial class ModVersionsWindowViewModel : ObservableRecipient
                 ?.VersionId;
             return newList;
         }
-    }
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
-    private static List<MinecraftVersionModel>? allGameVersions;
-
-    [ObservableProperty]
-    private string providerKey = "modrinth";
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
-    [NotifyPropertyChangedFor(nameof(RenderedModVersions))]
-    private List<AbstractModVersion> allModVersions = new();
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
-    private bool includeSnapshot = false;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SyncMinecraftVersionsCommand))]
-    private bool loadingMinecraftVersion = false;
-
-    [ObservableProperty]
-    private bool loadingModVersion = false;
-
-    [ObservableProperty]
-    private bool showChangeLog = true;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(RenderedModVersions))]
-    private string? selectedGameVersion;
-
-    [ObservableProperty]
-    private string? selectedModVersionId;
-
-    public ModVersionsWindowViewModel(string slug)
-    {
-        Slug = slug;
-        if (allGameVersions == null) { _ = SyncMinecraftVersions(); }
-
-        _ = SyncModVersions();
     }
 
     private bool CanLoadMinecraftVersion()
@@ -123,8 +125,6 @@ public partial class ModVersionsWindowViewModel : ObservableRecipient
 
         LoadingModVersion = false;
     }
-
-    public delegate ModVersionsWindowViewModel ModVersionsWindowViewModelFactory(string slug);
 
     public record GameVersionSelectedMessage(string? GameVersion);
 

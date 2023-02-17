@@ -5,14 +5,11 @@ using XMinecraftSuite.Core.Models.Enums;
 
 namespace XMinecraftSuite.Core.Providers.Mod;
 
-public class CurseforgeProvider : IModProvider
+internal class CurseforgeProvider : IModProvider
 {
     public static readonly string CurseforgeMinecraftId = "432";
 
-    private static readonly HttpClient httpClient = new()
-    {
-        BaseAddress = new Uri("https://api.curseforge.com/v1")
-    };
+    private static readonly HttpClient httpClient = new() { BaseAddress = new Uri("https://api.curseforge.com/v1") };
 
     static CurseforgeProvider()
     {
@@ -23,7 +20,7 @@ public class CurseforgeProvider : IModProvider
 
     ModProviderMetaData IModProvider.MetaData => throw new NotImplementedException();
 
-    public Task<List<AbstractModVersion>> GetModVersionsAsync(string slug, EnumModLoader[]? modLoaders,
+    public Task<List<AbstractModVersion>> GetModVersionsAsync(string slug, EnumModLoader[]? modLoaders = null,
         string[]? gameVersions = null)
     {
         throw new NotImplementedException();
@@ -39,8 +36,8 @@ public class CurseforgeProvider : IModProvider
         throw new NotImplementedException();
     }
 
-    Task<List<AbstractModSearchResult>> IModProvider.SearchModAsync(string modname, int limit, int offset,
-        SearchSortRule order, string[] gameVersions, EnumModLoader[] modLoaders)
+    public Task<List<AbstractModSearchResult>> SearchModAsync(string? modName = null, int limit = 0, int offset = 0,
+        SearchSortRule order = SearchSortRule.None, string[]? gameVersions = null, EnumModLoader[]? modLoaders = null)
     {
         throw new NotImplementedException();
     }

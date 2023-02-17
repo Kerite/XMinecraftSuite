@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 namespace XMinecraftSuite.Core.Services
 {
     public class ModVersionsService
-    {
-
-    }
+    {}
 }

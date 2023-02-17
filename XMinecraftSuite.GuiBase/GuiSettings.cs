@@ -1,3 +1,3 @@
 ﻿namespace XMinecraftSuite.Gui;
 
-public class GuiSettings { }
+public class GuiSettings {}

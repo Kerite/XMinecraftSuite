@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using XMinecraftSuite.Core.JsonConverter;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Enums;
 
@@ -28,13 +29,11 @@ public class MCRequestHelper
 
     public bool UseHmclApi = false;
 
-    #region Constructors
     static MCRequestHelper()
     {
         officialClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         hmclApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
-    #endregion
 
     private HttpClient CurrentClient => UseHmclApi ? hmclApiClient : officialClient;
 

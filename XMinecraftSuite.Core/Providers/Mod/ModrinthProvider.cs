@@ -9,7 +9,7 @@ using XMinecraftSuite.Core.Properties;
 
 namespace XMinecraftSuite.Core.Providers.Mod;
 
-public class ModrinthProvider : IModProvider
+internal class ModrinthProvider : IModProvider
 {
     private static readonly HttpClient httpClient = new()
     {

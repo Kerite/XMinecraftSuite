@@ -1,26 +1,26 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
-using XMinecraftSuite.Wpf.Views;
+using Microsoft.Extensions.DependencyInjection;
+using static XMinecraftSuite.Wpf.Views.ModVersionsListWindow;
 
 namespace XMinecraftSuite.Wpf;
 
-public class Commands
+public static class Commands
 {
-    #region æ≤Ã¨ Ù–‘
     public static readonly RelayCommand<string> DownloadModFileDialogCommand = new((parameter) =>
     {
-        if (parameter != null)
-        {
-            var window = new ModVersionsListWindow(parameter);
-            window.ShowDialog();
-        }
+        if (parameter == null) return;
+        var window = App.ServiceProvider!.GetRequiredService<ModVersionsListWindowFactory>();
+        window(parameter)
+            .Show();
     });
 
     public static readonly RelayCommand<string> OpenUrlCommand = new((url) =>
     {
-        if (url != null) Process.Start(new ProcessStartInfo("explorer.exe", url));
+        if (url == null) return;
+
+        Process.Start(new ProcessStartInfo("explorer.exe", url));
     });
 
     public static readonly RelayCommand<object> QuitCommand = new((_) => Environment.Exit(0));
-    #endregion
 }

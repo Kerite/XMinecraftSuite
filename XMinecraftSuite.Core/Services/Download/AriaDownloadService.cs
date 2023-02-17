@@ -4,21 +4,21 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Configs;
+using XMinecraftSuite.Core.Services.Config;
 
 namespace XMinecraftSuite.Core.Services.Download;
 
-public class AriaDownloadService : IDownloadService
+internal class AriaDownloadService : IDownloadService
 {
-    public event IDownloadService.DownloadProgressHandler? OnProgress;
-
-    public AriaDownloadService(ICoreSettings options)
+    public AriaDownloadService(ConfigService configService)
     {
-        AppSettings = options;
-        MRequestHelper = new RequestHelper(options.Aria2JsonRpc, options.Aria2Secret);
+        AppSettings = configService.GetConfig<CoreSettings>();
+        MRequestHelper = new RequestHelper(AppSettings.Aria2JsonRpc, AppSettings.Aria2Secret);
     }
 
-    private ICoreSettings AppSettings { get; }
+    private CoreSettings AppSettings { get; }
     private RequestHelper MRequestHelper { get; }
+    public event IDownloadService.DownloadProgressHandler? OnProgress;
 
     public string ServiceName => "aria";
     public ObservableCollection<DownloadTask> Tasks { get; } = new();

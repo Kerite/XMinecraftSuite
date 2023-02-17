@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using XMinecraftSuite.Wpf.ViewModels;
+using XMinecraftSuite.Gui.ViewModels;
 
 namespace XMinecraftSuite.Wpf.Views;
 
@@ -8,14 +8,11 @@ namespace XMinecraftSuite.Wpf.Views;
 /// </summary>
 public partial class MainWindow : Window
 {
-    #region Constructors
-    //Constructors
-    public MainWindow()
+    public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();
-        DataContext = ViewModel;
+        ViewModel = viewModel;
     }
-    #endregion
 
-    public MainWindowViewModel ViewModel { get; } = new();
+    public MainWindowViewModel ViewModel { get; }
 }

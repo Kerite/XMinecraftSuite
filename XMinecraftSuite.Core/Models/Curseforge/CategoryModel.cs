@@ -2,7 +2,7 @@
 
 public sealed class CategoryModel
 {
-    public int Id;
+    public int    Id;
     public string Name;
     public string Slug;
 }

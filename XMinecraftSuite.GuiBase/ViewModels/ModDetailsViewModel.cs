@@ -9,10 +9,10 @@ public partial class ModDetailsViewModel : ObservableRecipient,
     IRecipient<GuiMessages.ModSelectedMessage>,
     IRecipient<GuiMessages.ModProviderSelectedMessage>
 {
-    private string? ModProvider = "modrinth";
-
     [ObservableProperty]
     private AbstractModDetails? modDetail;
+
+    private string? ModProvider = "modrinth";
 
     [ObservableProperty]
     private bool reset;

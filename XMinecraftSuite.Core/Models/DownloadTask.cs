@@ -6,7 +6,6 @@ public class DownloadTask
 {
     public delegate void TaskProgressHandler(double Progress);
 
-    public event TaskProgressHandler? OnProgress;
     private double progress = 0.0;
     public string Url { get; init; } = string.Empty;
     public FileInfo? Path { get; init; }
@@ -23,4 +22,6 @@ public class DownloadTask
             OnProgress?.Invoke(progress);
         }
     }
+
+    public event TaskProgressHandler? OnProgress;
 }

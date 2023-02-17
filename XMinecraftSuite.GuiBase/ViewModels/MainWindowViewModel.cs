@@ -9,13 +9,6 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
 {
     private CancellationTokenSource cancellationTokenSource = new();
 
-    public SearchModListViewModel SearchModListViewModel { get; set; } = new() { IsActive = true };
-
-    public PanelModProviderSelectorViewModel PanelModProviderSelectorViewModel { get; set; } =
-        new() { IsActive = true };
-
-    public ModDetailsViewModel ModDetailsViewModel { get; set; } = new() { IsActive = true };
-
     [ObservableProperty]
     private string keyWord = string.Empty;
 
@@ -39,6 +32,13 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     private string? selectedModSlug;
+
+    public SearchModListViewModel SearchModListViewModel { get; set; } = new() { IsActive = true };
+
+    public PanelModProviderSelectorViewModel PanelModProviderSelectorViewModel { get; set; } =
+        new() { IsActive = true };
+
+    public ModDetailsViewModel ModDetailsViewModel { get; set; } = new() { IsActive = true };
 
     public void Dispose()
     {

@@ -11,7 +11,7 @@ public class BooleanToVisibilityConverter : BaseValueConverter
     #region 方法 Methods
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var boolValue = System.Convert.ToBoolean(value);
+        var boolValue = System.Convert.ToBoolean(value, culture);
         if (IsReserve) boolValue = !boolValue;
         if (boolValue)
             return Visibility.Visible;

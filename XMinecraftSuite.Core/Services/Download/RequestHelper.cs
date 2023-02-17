@@ -6,6 +6,8 @@ namespace XMinecraftSuite.Core.Services.Download;
 
 internal class RequestHelper
 {
+    private readonly HttpClient httpClient;
+
     public RequestHelper(string url, string secret)
     {
         httpClient = new HttpClient();
@@ -13,7 +15,6 @@ internal class RequestHelper
         Secret = secret;
     }
 
-    private readonly HttpClient httpClient;
     private string Url { get; }
     private string Secret { get; }
     public int RetryCount { get; set; } = 5;
