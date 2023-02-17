@@ -1,0 +1,155 @@
+﻿<Window x:Name="ModVersionsWindow"
+    x:Class="XMinecraftSuite.Wpf.Views.ModVersionsListWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:XMinecraftSuite.Wpf.Converters"
+    xmlns:cma="clr-namespace:XMinecraftSuite.Core.Models.Abstracts;assembly=XMinecraftSuite.Core"
+    xmlns:cmm="clr-namespace:XMinecraftSuite.Core.Models.Modrinth;assembly=XMinecraftSuite.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:root="clr-namespace:XMinecraftSuite.Wpf"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:uc="clr-namespace:XMinecraftSuite.Wpf.Views.UserControls"
+    xmlns:vm="clr-namespace:XMinecraftSuite.Gui.ViewModels;assembly=XMinecraftSuite.Gui"
+    Title="ModFilesListWindow"
+    Width="640"
+    Height="480"
+    d:DataContext="{d:DesignInstance Type=vm:ModVersionsWindowViewModel}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <CollectionViewSource x:Key="GroupedGameVersions" Source="{Binding RenderedMinecraftVersions}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Type" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <sys:Double x:Key="DownloadButtonSize">20</sys:Double>
+    </Window.Resources>
+    <DockPanel Margin="8">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ComboBox
+                Grid.Column="0"
+                Height="24"
+                VerticalAlignment="Top" VerticalContentAlignment="Center"
+                FontSize="{DynamicResource NormalFontSize}"
+                ItemsSource="{Binding Source={StaticResource GroupedGameVersions}}"
+                SelectedValue="{Binding SelectedGameVersion}"
+                SelectedValuePath="Id">
+                <ComboBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Height="23">
+                                    <TextBlock
+                                        Margin="5,0,0,0" VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="{Binding Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ComboBox.GroupStyle>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Id}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button
+                Grid.Column="1"
+                Width="24" Height="24"
+                Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                Command="{Binding SyncMinecraftVersionsCommand}"
+                Content="&#xea2e;"
+                FontFamily="{StaticResource IconFonts}"
+                FontSize="{DynamicResource LargeFontSize}" />
+            <CheckBox x:Name="IncludeSnapshotCheckBox"
+                Grid.Column="2"
+                Height="24"
+                Margin="8,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                Content="Include Snapshot"
+                FontSize="{DynamicResource NormalFontSize}"
+                IsChecked="{Binding IncludeSnapshot}" />
+        </Grid>
+        <Rectangle Height="8" DockPanel.Dock="Top" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ProgressBar
+                Grid.Row="0"
+                Height="4"
+                VerticalAlignment="Top"
+                IsIndeterminate="True"
+                Visibility="{Binding LoadingModVersion,
+                                     Converter={StaticResource DefaultVisibilityConverter}}" />
+            <ItemsControl
+                Grid.Row="0"
+                ItemsSource="{Binding RenderedModVersions}"
+                Style="{StaticResource ScrollerItemsControl}">
+                <d:ItemsControl.ItemsSource>
+                    <x:Array Type="{x:Type cma:AbstractModVersion}">
+                        <cmm:ModrinthModVersion MChangeLog="fafafaafafa" MName="233" />
+                        <cmm:ModrinthModVersion MChangeLog="fafafaafafa" MName="233" />
+                    </x:Array>
+                </d:ItemsControl.ItemsSource>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <uc:HoverableAndSelectableListItem>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Row="0" Grid.Column="0"
+                                    Width="{StaticResource DownloadButtonSize}"
+                                    Height="{StaticResource DownloadButtonSize}"
+                                    Margin="4,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Content="&#xe9c7;"
+                                    FontFamily="{StaticResource IconFonts}"
+                                    FontSize="{DynamicResource LargeFontSize}" />
+                                <TextBlock
+                                    Grid.Row="0" Grid.Column="1"
+                                    Padding="3" VerticalAlignment="Center"
+                                    FontSize="{DynamicResource LargeFontSize}"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding Name}" />
+                                <TextBlock
+                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                    Margin="0,4" Padding="16,0,0,0"
+                                    FontSize="{DynamicResource NormalFontSize}"
+                                    Text="{Binding ChangeLog}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{Binding IsChecked,
+                                                         ElementName=ShowChangeLogCheckBox,
+                                                         Converter={c:BooleanToVisibilityConverter}}" />
+                            </Grid>
+                        </uc:HoverableAndSelectableListItem>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <CheckBox
+                Name="ShowChangeLogCheckBox"
+                Grid.Row="1"
+                IsChecked="{Binding ShowChangeLog,
+                                    FallbackValue=True}">
+                <CheckBox.Margin>
+                    <Thickness Top="8" />
+                </CheckBox.Margin>
+                Show Changelog
+            </CheckBox>
+        </Grid>
+    </DockPanel>
+</Window>
