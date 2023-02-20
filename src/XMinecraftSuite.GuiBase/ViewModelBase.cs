@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Keriteal. All rights reserved.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace XMinecraftSuite.Gui;
 
 /// <summary>
-/// 界面相关设置.
+/// ViewModel的基类.
 /// </summary>
-public class GuiSettings
+public class ViewModelBase : ObservableObject
 {
 }

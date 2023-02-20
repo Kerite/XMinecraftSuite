@@ -9,7 +9,7 @@ using XMinecraftSuite.Core.Services.Download;
 
 namespace XMinecraftSuite.Wpf.Services.DownloadServices;
 
-public class IDMDownloadManager : IDownloadService
+public sealed class IDMDownloadManager : IDownloadService
 {
     public IDMDownloadManager(ConfigService options)
     {

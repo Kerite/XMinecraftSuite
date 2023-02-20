@@ -53,10 +53,17 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
         WeakReferenceMessenger.Default.Send(new GuiMessages.ModSelectedMessage(value));
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     [RelayCommand]
-    public async Task LoadMore()
+    public async Task LoadMoreAsync()
     {
-        if (Searching) { return; }
+        if (Searching)
+        {
+            return;
+        }
 
         Searching = true;
         var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
@@ -65,7 +72,10 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
             var searchResult = string.IsNullOrEmpty(SearchKeyWord)
                 ? await modProvider.SearchModAsync(offset: ModSearchResults.Count)
                 : await modProvider.SearchModAsync(SearchKeyWord, offset: ModSearchResults.Count);
-            foreach (var mod in searchResult) ModSearchResults.Add(mod);
+            foreach (var mod in searchResult)
+            {
+                ModSearchResults.Add(mod);
+            }
         }
 
         Searching = false;
@@ -74,18 +84,22 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     [RelayCommand(CanExecute = nameof(CanSearch))]
     public async Task Search(string? keyWord = null)
     {
-        if (Searching) { return; }
+        if (this.Searching)
+        {
+            return;
+        }
 
-        ModSearchResults.Clear();
-        Searching = true;
-        SearchKeyWord = keyWord ?? string.Empty;
+        this.ModSearchResults.Clear();
+        this.Searching = true;
+        this.SearchKeyWord = keyWord ?? string.Empty;
         var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
         if (modProvider != null)
         {
             var result = string.IsNullOrEmpty(SearchKeyWord)
                 ? await modProvider.SearchModAsync()
                 : await modProvider.SearchModAsync(SearchKeyWord);
-            foreach (var mod in result) ModSearchResults.Add(mod);
+            foreach (var mod in result)
+                ModSearchResults.Add(mod);
             SelectedSlug = ModSearchResults.First()
                 .Slug;
         }

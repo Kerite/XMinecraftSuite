@@ -1,12 +1,15 @@
-﻿namespace XMinecraftSuite.Core;
+﻿// Copyright (c) Keriteal. All rights reserved.
 
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using CommunityToolkit.Diagnostics;
 using XMinecraftSuite.Core.JsonConverter;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Enums;
+
+namespace XMinecraftSuite.Core;
 
 /// <summary>
 ///  用于访问MC相关API的帮助类.
@@ -47,10 +50,13 @@ public class MCRequestHelper
     {
         var responseMessage = await CurrentClient.GetAsync("mc/game/version_manifest_v2.json");
         if (!responseMessage.IsSuccessStatusCode)
+        {
             throw new Exception("Request Minecraft Version Failed");
+        }
+
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
-        if (jsonString == null)
-            throw new Exception("Json Content is Null");
+        Guard.IsNotNullOrEmpty(jsonString);
+
         var versionsJson = JsonNode.Parse(jsonString)?["versions"]?.AsArray();
         if (versionsJson == null)
             throw new Exception("Parse Version List Json Failed");

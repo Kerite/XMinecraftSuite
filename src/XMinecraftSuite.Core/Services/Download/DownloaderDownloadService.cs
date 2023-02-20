@@ -1,5 +1,7 @@
-﻿using Downloader;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
 using System.Collections.ObjectModel;
+using Downloader;
 using XMinecraftSuite.Core.Models.Download;
 
 namespace XMinecraftSuite.Core.Services.Download;
@@ -7,18 +9,19 @@ namespace XMinecraftSuite.Core.Services.Download;
 internal class DownloaderDownloadService : IDownloadService
 {
     public ObservableCollection<DownloadTask> Tasks { get; } = new();
+
     public string ServiceName { get; } = "downloader";
 
-    public void Download(DownloadTask task)
+    public void Download(DownloadTaskInfo taskInfo)
     {
         var download = DownloadBuilder.New()
-            .WithFileName(task.TaskInfo.Path!.Name)
-            .WithUrl(task.TaskInfo.Url)
-            .WithDirectory(task.TaskInfo.Path.Directory!.FullName)
+            .WithFileName(taskInfo.Path!.Name)
+            .WithUrl(taskInfo.Url)
+            .WithDirectory(taskInfo.Path.Directory!.FullName)
             .Build();
     }
 
-    public void Cancel(DownloadTask task)
+    public void Cancel(DownloadTaskInfo task)
     {
         throw new NotImplementedException();
     }

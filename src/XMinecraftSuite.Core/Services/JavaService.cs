@@ -11,7 +11,7 @@ public class JavaService
         CoreSettings = appSettings.GetConfig<CoreSettings>();
     }
 
-    private CoreSettings CoreSettings { get; }
-
     public ObservableCollection<string> JavaRuntimeList { get; } = new();
+
+    private CoreSettings CoreSettings { get; }
 }

@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Globalization;
 using System.Windows;
 
 namespace XMinecraftSuite.Wpf.Converters;
@@ -6,9 +8,9 @@ namespace XMinecraftSuite.Wpf.Converters;
 public class BooleanToVisibilityConverter : BaseValueConverter
 {
     public bool IsReserve { get; set; }
+
     public bool UseHidden { get; set; }
 
-    #region 方法 Methods
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var boolValue = System.Convert.ToBoolean(value, culture);
@@ -22,5 +24,4 @@ public class BooleanToVisibilityConverter : BaseValueConverter
     {
         throw new NotImplementedException();
     }
-    #endregion
 }

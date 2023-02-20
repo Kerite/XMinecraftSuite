@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Keriteal. All rights reserved.
 
 namespace XMinecraftSuite.Gui
 {
+    /// <summary>
+    /// Gui相关消息.
+    /// </summary>
     public class GuiMessages
     {
         public record ModProviderSelectedMessage(string Provider);

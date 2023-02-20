@@ -1,14 +1,18 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
 using XMinecraftSuite.Core.Services.Config;
 
 namespace XMinecraftSuite.Gui.ViewModels;
 
-public class ConfigurationViewModel : ObservableObject
+/// <summary>
+/// 配置界面ViewModel.
+/// </summary>
+public sealed class ConfigurationViewModel : ViewModelBase
 {
     public ConfigurationViewModel(ConfigService configService)
     {
-        ConfigService = configService;
+        this.ConfigService = configService;
     }
 
-    public ConfigService ConfigService { get; }
+    private ConfigService ConfigService { get; }
 }

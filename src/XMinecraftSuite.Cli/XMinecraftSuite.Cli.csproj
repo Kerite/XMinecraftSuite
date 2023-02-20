@@ -8,10 +8,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <CodeAnalysisRuleSet />
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <ItemGroup>

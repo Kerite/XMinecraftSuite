@@ -10,10 +10,15 @@ namespace XMinecraftSuite.Core.Models.Modrinth;
 public class ModrinthModVersion : AbstractModVersion
 {
     public override string ChangeLog => MChangeLog;
+
     public override string Name => MName;
+
     public override string Number => MVersionNumber;
+
     public override string ProjectId => MProjectId;
+
     public override string VersionId => MId;
+
     public override int Downloads => MDownloads;
 
     public override EnumModVersionType ModVersionType => MModVersionType switch

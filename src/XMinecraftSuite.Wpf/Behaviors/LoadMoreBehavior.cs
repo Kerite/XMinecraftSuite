@@ -1,43 +1,56 @@
-﻿using System.Windows;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
 namespace XMinecraftSuite.Wpf.Behaviors;
 
-public class LoadMoreBehavior : Behavior<ScrollViewer>
+/// <summary>
+/// 让ScrollViewer支持加载更多.
+/// </summary>
+public sealed class LoadMoreBehavior : Behavior<ScrollViewer>
 {
+    public static readonly DependencyProperty CommandParameterProperty =
+        DependencyProperty.Register("CommandParameter", typeof(object), typeof(LoadMoreBehavior));
+
+    public static readonly DependencyProperty CommandProperty =
+        DependencyProperty.Register("Command", typeof(ICommand), typeof(LoadMoreBehavior));
+
+    /// <summary>
+    /// Gets or sets 触发加载更多时执行的命令.
+    /// </summary>
     public ICommand Command
     {
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
 
+    /// <summary>
+    /// Gets 触发加载更多时传递的参数.
+    /// </summary>
     public object? CommandParameter
     {
         get => GetValue(CommandParameterProperty);
         set => SetValue(CommandParameterProperty, value);
     }
 
-    #region 方法 Methods
-    private void ScrollChanged(object sender, ScrollChangedEventArgs e)
-    {
-        if (e.VerticalChange <= 0)
-            return;
-        if (Math.Abs(e.VerticalOffset + e.ViewportHeight - e.ExtentHeight) < 0.001) Command?.Execute(CommandParameter);
-    }
-    #endregion
-
     protected override void OnAttached()
     {
         AssociatedObject.ScrollChanged += ScrollChanged;
     }
 
-    #region 依赖属性 DependencyProperties
-    public static readonly DependencyProperty CommandParameterProperty =
-        DependencyProperty.Register("CommandParameter", typeof(object), typeof(LoadMoreBehavior));
+    private void ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        if (e.VerticalChange <= 0)
+        {
+            return;
+        }
 
-    public static readonly DependencyProperty CommandProperty =
-        DependencyProperty.Register("Command", typeof(ICommand), typeof(LoadMoreBehavior));
-    #endregion
+        if (Math.Abs(e.VerticalOffset + e.ViewportHeight - e.ExtentHeight) < 0.001)
+        {
+            Command?.Execute(CommandParameter);
+        }
+    }
 }

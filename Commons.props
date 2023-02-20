@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(SolutionDir)\Common.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
-            <PrivateAssets>All</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" PrivateAssets="All" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="All" />
+        <!-- Global Fody Reference -->
+        <PackageReference Include="Fody" Version="6.6.4" PrivateAssets="All" />
+        <PackageReference Include="Equals.Fody" Version="4.0.2" PrivateAssets="All" />
+        <PackageReference Include="ToString.Fody" Version="1.11.1" PrivateAssets="All" />
+        <PackageReference Include="Visualize.Fody" Version="1.2.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

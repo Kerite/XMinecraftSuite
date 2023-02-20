@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,9 +12,14 @@ namespace XMinecraftSuite.Core.Providers;
 public class ModProvidersRegistry : ObservableRecipient, INotifyCollectionChanged, IEnumerable<IModProvider>
 {
     public IEnumerable<ModProviderMetaData> MetaDatas => Registry.Values.Select(x => x.MetaData);
-    public IEnumerable<string> ProviderKeys => Registry.Keys;
-    public IEnumerable<IModProvider> Providers => Registry.Values.Where(x => x != null);
+
+    public IEnumerable<string> ProviderKeys => this.Registry.Keys;
+
+    public IEnumerable<IModProvider> Providers => this.Registry.Values.Where(x => x != null);
+
     public Dictionary<string, IModProvider> Registry { get; } = new();
+
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
     [DebuggerHidden]
     public IModProvider? this[string? key]
@@ -44,15 +51,12 @@ public class ModProvidersRegistry : ObservableRecipient, INotifyCollectionChange
         set => this[metaData.ProviderId] = value;
     }
 
-    public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
     public static ModProvidersRegistry operator +(ModProvidersRegistry registry, IModProvider provider)
     {
         registry[provider.MetaData] = provider;
         return registry;
     }
 
-    #region 方法 Methods
     IEnumerator IEnumerable.GetEnumerator()
     {
         return Registry.Values.GetEnumerator();
@@ -62,5 +66,4 @@ public class ModProvidersRegistry : ObservableRecipient, INotifyCollectionChange
     {
         return Registry.Values.GetEnumerator();
     }
-    #endregion
 }

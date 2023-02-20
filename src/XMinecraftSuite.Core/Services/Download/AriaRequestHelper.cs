@@ -15,9 +15,11 @@ internal class AriaRequestHelper
         Secret = secret;
     }
 
-    private string Url { get; }
-    private string Secret { get; }
     public int RetryCount { get; set; } = 5;
+
+    private string Url { get; }
+
+    private string Secret { get; }
 
     internal async Task<T> Request<T>(string method, CancellationToken cancellationToken, params object?[]? parameters)
     {

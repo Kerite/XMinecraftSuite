@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Collections.ObjectModel;
 using XMinecraftSuite.Core.Models.Download;
 using XMinecraftSuite.Core.Services.Config;
 using XMinecraftSuite.Core.Services.Download;
@@ -8,6 +10,7 @@ namespace XMinecraftSuite.Core.Services;
 public class DownloadServiceProxy : IDownloadService
 {
     public string ServiceName => "proxy";
+
     public ObservableCollection<DownloadTask> Tasks => throw new NotImplementedException();
 
     public DownloadServiceProxy(ConfigService configService)
@@ -15,17 +18,15 @@ public class DownloadServiceProxy : IDownloadService
         ConfigService = configService;
     }
 
-    #region 方法 Methods
-    public void Cancel(DownloadTask task)
+    public void Cancel(DownloadTaskInfo task)
     {
         throw new NotImplementedException();
     }
 
-    public void Download(DownloadTask task)
+    public void Download(DownloadTaskInfo task)
     {
         throw new NotImplementedException();
     }
-    #endregion
 
     private ConfigService ConfigService { get; }
 }

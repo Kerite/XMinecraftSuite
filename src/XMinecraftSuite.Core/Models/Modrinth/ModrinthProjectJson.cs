@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Models.Enums;
@@ -8,14 +10,23 @@ namespace XMinecraftSuite.Core.Models.Modrinth;
 public class ModrinthProjectJson : AbstractModDetails
 {
     public override DateTime Created => MCreated;
+
     public override string Description => MBody;
+
     public override int Downloads => MDownloads;
+
     public override int Followers => MFollowers;
+
     public override string[] GameVersions => MGameVersions;
+
     public override string ImageUrl => MIconUrl;
+
     public override string Issues => MIssues;
+
     public override string Name => MTitle;
+
     public override string OriginUrl => $"https://modrinth.com/mod/{MSlug}";
+
     public override string ShortDescription => MDescription;
 
     public override EnumModSide Side => MClientSide switch
