@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using IDManLib;
-using XMinecraftSuite.Core.Models;
+﻿using IDManLib;
+using System.Collections.ObjectModel;
 using XMinecraftSuite.Core.Models.Configs;
+using XMinecraftSuite.Core.Models.Download;
 using XMinecraftSuite.Core.Services.Config;
 using XMinecraftSuite.Core.Services.Download;
 
@@ -23,8 +23,16 @@ public class IDMDownloadManager : IDownloadService
 
     public void Download(DownloadTask task)
     {
-        new CIDMLinkTransmitterClass().SendLinkToIDM(task.Url, null, task.Cookies, "", "", "",
-            task.Path?.Directory!.FullName, task.Path?.Name, 1);
+        new CIDMLinkTransmitterClass().SendLinkToIDM(
+            task.TaskInfo.Url,
+            null,
+            task.TaskInfo.Cookies,
+            string.Empty,
+            string.Empty,
+            string.Empty,
+            task.TaskInfo.Path?.Directory!.FullName,
+            task.TaskInfo.Path?.Name,
+            1);
         throw new NotImplementedException();
     }
 

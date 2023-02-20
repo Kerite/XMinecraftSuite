@@ -11,24 +11,20 @@ namespace XMinecraftSuite.Core.Providers.Mod;
 
 internal class ModrinthProvider : IModProvider
 {
-    private static readonly HttpClient httpClient = new()
-    {
-        BaseAddress = new Uri("https://api.modrinth.com/v2/")
-    };
+    private static readonly HttpClient httpClient = new() { BaseAddress = new Uri("https://api.modrinth.com/v2/") };
 
     static ModrinthProvider()
     {
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public ModProviderMetaData MetaData =>
-        new()
-        {
-            ProviderId = "modrinth",
-            ProviderName = "Modrinth",
-            IsLocal = false,
-            Icon = ((IModProvider)this).LoadBitmap(Resources.Modrinth)
-        };
+    public ModProviderMetaData MetaData => new()
+    {
+        ProviderId = "modrinth",
+        ProviderName = "Modrinth",
+        IsLocal = false,
+        Icon = ((IModProvider)this).LoadBitmap(Resources.Modrinth)
+    };
 
     async Task<AbstractModDetails> IModProvider.GetModDetailAsync(string slug)
     {
@@ -46,8 +42,8 @@ internal class ModrinthProvider : IModProvider
         var queryStr = $"project/{slug}/version";
         if (modLoaders != null)
         {
-            var loadersFilter = string.Join(",",
-                modLoaders.Select(modLoader => $"\"{modLoader.ToString().ToLower()}\""));
+            var loadersFilter = string.Join(
+                ",", modLoaders.Select(modLoader => $"\"{modLoader.ToString().ToLower()}\""));
             queryStr += $"?loaders=[{loadersFilter}]";
         }
 
@@ -75,10 +71,10 @@ internal class ModrinthProvider : IModProvider
     {
         var queryParameters = "?";
         var limitStr = "40";
-        if (limit != 0) limitStr = limit.ToString();
+        if (limit != 0) { limitStr = limit.ToString(); }
 
         queryParameters += $"limit={limitStr}&offset={offset}";
-        if (modName != null) queryParameters += $"&query={modName}";
+        if (modName != null) { queryParameters += $"&query={modName}"; }
 
         if (order != SearchSortRule.None)
         {
@@ -103,7 +99,7 @@ internal class ModrinthProvider : IModProvider
             throw new Exception("Response Body Is Not A Valid Json");
         var hitsList = jsonObject["hits"]!.AsArray();
         return hitsList.AsEnumerable()
-            .Select(result => JsonSerializer.Deserialize<ModrinthSearchResult>(result.ToJsonString()))
+            .Select(result => JsonSerializer.Deserialize<ModrinthSearchResult>(result!.ToJsonString()))
             .ToList<AbstractModSearchResult>();
     }
 }

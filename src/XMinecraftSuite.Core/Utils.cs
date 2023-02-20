@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Configs;
+using XMinecraftSuite.Core.Services;
 using XMinecraftSuite.Core.Services.Download;
 using static XMinecraftSuite.Core.Services.Download.IDownloadService;
 
@@ -16,14 +17,9 @@ public static class Utils
 
     public static IServiceCollection InjectCoreServices(this IServiceCollection services)
     {
-        // Register Download Services
-        services.AddSingleton<IDownloadService, DownloaderDownloadService>();
         services.AddSingleton<IDownloadService, AriaDownloadService>();
-        services.AddTransient(p =>
-        {
-            return new DownloadServiceFactory(key => p.GetRequiredService<IEnumerable<IDownloadService>>()
-                .FirstOrDefault(k => k.ServiceName == key)!);
-        });
+        services.AddSingleton<IDownloadService, DownloaderDownloadService>();
+        services.AddSingleton<IDownloadService, DownloadServiceProxy>();
         return services;
     }
 

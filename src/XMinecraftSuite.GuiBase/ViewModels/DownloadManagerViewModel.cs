@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using XMinecraftSuite.Core.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 using XMinecraftSuite.Core.Models.Configs;
+using XMinecraftSuite.Core.Models.Download;
 using XMinecraftSuite.Core.Services.Config;
 using XMinecraftSuite.Core.Services.Download;
 
@@ -19,8 +19,7 @@ public partial class DownloadManagerViewModel : ObservableObject
 
     public CoreSettings CoreSettings { get; set; }
 
-    public ObservableCollection<DownloadTask> DownloadTasks => ServiceFactory(CoreSettings.DownloadService)
-        .Tasks;
+    public ObservableCollection<DownloadTask> DownloadTasks => ServiceFactory(CoreSettings.DownloadService).Tasks;
 
     [NotifyPropertyChangedFor(nameof(DownloadService))]
     [ObservableProperty]
