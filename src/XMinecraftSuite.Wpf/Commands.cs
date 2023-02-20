@@ -1,9 +1,9 @@
+﻿namespace XMinecraftSuite.Wpf;
+
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using static XMinecraftSuite.Wpf.Views.ModVersionsListWindow;
-
-namespace XMinecraftSuite.Wpf;
 
 public static class Commands
 {

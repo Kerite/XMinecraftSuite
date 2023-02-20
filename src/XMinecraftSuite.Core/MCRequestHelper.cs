@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿namespace XMinecraftSuite.Core;
+
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -6,36 +8,40 @@ using XMinecraftSuite.Core.JsonConverter;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Enums;
 
-namespace XMinecraftSuite.Core;
-
+/// <summary>
+///  用于访问MC相关API的帮助类.
+/// </summary>
 public class MCRequestHelper
 {
-    private static readonly HttpClient hmclApiClient = new()
-    {
-        BaseAddress = new Uri("https://bmclapi2.bangbang93.com/")
-    };
-
+    /// <summary>
+    /// 单例.
+    /// </summary>
     public static readonly MCRequestHelper Instance = new();
 
-    public static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    public bool UseHmclApi { get; set; } = false;
+
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     {
-        Converters = { new JsonStringEnumConverter(new SnakeCaseNamingPolicy()) }
+        Converters = { new JsonStringEnumConverter(new SnakeCaseNamingPolicy()) },
     };
 
-    private static readonly HttpClient officialClient = new()
+    private static readonly HttpClient HmclApiClient = new()
     {
-        BaseAddress = new Uri("http://launchermeta.mojang.com/")
+        BaseAddress = new Uri("https://bmclapi2.bangbang93.com/"),
     };
 
-    public bool UseHmclApi = false;
+    private static readonly HttpClient OfficialClient = new()
+    {
+        BaseAddress = new Uri("http://launchermeta.mojang.com/"),
+    };
 
     static MCRequestHelper()
     {
-        officialClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        hmclApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        OfficialClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        HmclApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    private HttpClient CurrentClient => UseHmclApi ? hmclApiClient : officialClient;
+    private HttpClient CurrentClient => UseHmclApi ? HmclApiClient : OfficialClient;
 
     public async Task<List<MinecraftVersionModel>> GetMinecraftVersionsModelAsync(bool includeSnapshotAndLegacy)
     {
@@ -48,7 +54,7 @@ public class MCRequestHelper
         var versionsJson = JsonNode.Parse(jsonString)?["versions"]?.AsArray();
         if (versionsJson == null)
             throw new Exception("Parse Version List Json Failed");
-        return versionsJson.Select(version => version.Deserialize<MinecraftVersionModel>(jsonSerializerOptions))
+        return versionsJson.Select(version => version.Deserialize<MinecraftVersionModel>(JsonSerializerOptions))
             .Where(versionModel =>
             {
                 if (versionModel == null)
@@ -66,13 +72,13 @@ public class MCRequestHelper
 
     public async Task<byte[]> GetOptifineDownloadUrlAsync(string mcVersion, string patch)
     {
-        var request = await hmclApiClient.GetAsync($"optifine/{mcVersion}/HD_U/{patch}");
+        var request = await HmclApiClient.GetAsync($"optifine/{mcVersion}/HD_U/{patch}");
         throw new NotImplementedException();
     }
 
     public async Task<OptifineVersionModel[]> GetOptifineVersionsAsync(string mcVersion)
     {
-        var request = await hmclApiClient.GetAsync($"optifine/{mcVersion}");
+        var request = await HmclApiClient.GetAsync($"optifine/{mcVersion}");
         throw new NotImplementedException();
     }
 }

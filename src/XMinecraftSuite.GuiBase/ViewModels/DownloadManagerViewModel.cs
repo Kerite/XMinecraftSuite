@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using XMinecraftSuite.Core.Models.Configs;
 using XMinecraftSuite.Core.Models.Download;
+using XMinecraftSuite.Core.Services;
 using XMinecraftSuite.Core.Services.Config;
 using XMinecraftSuite.Core.Services.Download;
 
@@ -9,23 +10,14 @@ namespace XMinecraftSuite.Gui.ViewModels;
 
 public partial class DownloadManagerViewModel : ObservableObject
 {
-#pragma warning disable CS8618
-    public DownloadManagerViewModel(IDownloadService.DownloadServiceFactory serviceFactory, ConfigService coreSettings)
-#pragma warning restore CS8618
+    public DownloadManagerViewModel(ConfigService coreSettings, DownloadServiceProxy downloadServiceProxy)
     {
-        this.serviceFactory = serviceFactory;
+        downloadService = downloadServiceProxy;
         CoreSettings = coreSettings.GetConfig<CoreSettings>();
     }
 
     public CoreSettings CoreSettings { get; set; }
 
-    public ObservableCollection<DownloadTask> DownloadTasks => ServiceFactory(CoreSettings.DownloadService).Tasks;
-
-    [NotifyPropertyChangedFor(nameof(DownloadService))]
     [ObservableProperty]
-    private IDownloadService.DownloadServiceFactory serviceFactory;
-
-    [NotifyPropertyChangedFor(nameof(DownloadTasks))]
-    [ObservableProperty]
-    private IDownloadService downloadService;
+    private DownloadServiceProxy downloadService;
 }
