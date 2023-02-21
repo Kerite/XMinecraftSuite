@@ -9,13 +9,19 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\XMinecraftSuite.Core\XMinecraftSuite.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\" />
     </ItemGroup>
 
 </Project>

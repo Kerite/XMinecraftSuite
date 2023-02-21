@@ -1,16 +1,27 @@
-﻿namespace XMinecraftSuite.Core.Services.Config;
+﻿// Copyright (c) Keriteal. All rights reserved.
 
+namespace XMinecraftSuite.Core.Services.Config;
+
+/// <summary>
+/// 配置服务.
+/// </summary>
 public class ConfigService
 {
     internal ConfigService(Dictionary<Type, object> configs)
     {
-        Configs = configs;
+        this.Configs = configs;
     }
 
     private Dictionary<Type, object> Configs { get; }
 
-    public T GetConfig<T>() where T : class
+    /// <summary>
+    /// 获取配置.
+    /// </summary>
+    /// <typeparam name="T">配置类.</typeparam>
+    /// <returns>配置.</returns>
+    public T GetConfig<T>()
+        where T : class
     {
-        return (T)Configs[typeof(T)];
+        return (T)this.Configs[typeof(T)];
     }
 }

@@ -1,8 +1,24 @@
-﻿namespace XMinecraftSuite.Core.Models.Enums;
+﻿// Copyright (c) Keriteal. All rights reserved.
 
+namespace XMinecraftSuite.Core.Models.Enums;
+
+/// <summary>
+/// Mod加载器.
+/// </summary>
 public enum EnumModLoader
 {
+    /// <summary>
+    /// Forge.
+    /// </summary>
     Forge,
+
+    /// <summary>
+    /// Fabric.
+    /// </summary>
     Fabric,
-    Quilt
+
+    /// <summary>
+    /// Quilt.
+    /// </summary>
+    Quilt,
 }

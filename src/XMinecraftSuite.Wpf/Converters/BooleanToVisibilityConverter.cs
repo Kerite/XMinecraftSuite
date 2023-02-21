@@ -5,22 +5,40 @@ using System.Windows;
 
 namespace XMinecraftSuite.Wpf.Converters;
 
-public class BooleanToVisibilityConverter : BaseValueConverter
+/// <summary>
+/// 转换布尔值为 <see cref="Visibility"/>.
+/// </summary>
+public class BooleanToVisibilityConverter : TypedValueConverter<bool, Visibility>
 {
+    /// <summary>
+    /// 倒置结果.
+    /// </summary>
     public bool IsReserve { get; set; }
 
+    /// <summary>
+    /// 返回 <see cref="Visibility.Hidden"/> 而不是 <see cref="Visibility.Collapsed"/>.
+    /// </summary>
     public bool UseHidden { get; set; }
 
-    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    protected override Visibility NewConvert(bool source, object parameter, CultureInfo culture)
     {
-        var boolValue = System.Convert.ToBoolean(value, culture);
-        if (IsReserve) boolValue = !boolValue;
+        var boolValue = System.Convert.ToBoolean(source, culture);
+        if (this.IsReserve)
+        {
+            boolValue = !boolValue;
+        }
+
         if (boolValue)
+        {
             return Visibility.Visible;
-        return UseHidden ? Visibility.Hidden : Visibility.Collapsed;
+        }
+
+        return this.UseHidden ? Visibility.Hidden : Visibility.Collapsed;
     }
 
-    public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    protected override bool NewConvertBack(Visibility back, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

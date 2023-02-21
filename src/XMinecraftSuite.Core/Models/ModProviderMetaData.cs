@@ -1,20 +1,33 @@
-﻿using SkiaSharp;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using SkiaSharp;
 
 namespace XMinecraftSuite.Core.Models;
 
+/// <summary>
+/// ModProvider 的 元数据.
+/// </summary>
 [Serializable]
 [Equals(DoNotAddEqualityOperators = true)]
 public sealed class ModProviderMetaData
 {
+    /// <summary>
+    /// Provider 的 Id.
+    /// </summary>
     public required string ProviderId { get; init; }
-    public required string ProviderName { get; init; }
-    public required bool IsLocal { get; init; } = true;
-    public required SKBitmap? Icon { get; init; }
 
-    public static SKBitmap LoadBitmapImage(Type type, string resourceKey)
-    {
-        var assembly = type.Assembly;
-        using var stream = assembly.GetManifestResourceStream(resourceKey);
-        return SKBitmap.Decode(stream);
-    }
+    /// <summary>
+    /// Provider 的 名称.
+    /// </summary>
+    public required string ProviderName { get; init; }
+
+    /// <summary>
+    /// 数据是否来自本地.
+    /// </summary>
+    public required bool IsLocal { get; init; } = true;
+
+    /// <summary>
+    /// Provider 的图标.
+    /// </summary>
+    public required SKBitmap? Icon { get; init; }
 }

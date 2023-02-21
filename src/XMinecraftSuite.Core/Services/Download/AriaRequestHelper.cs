@@ -1,18 +1,20 @@
-﻿using System.Text;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace XMinecraftSuite.Core.Services.Download;
 
-internal class AriaRequestHelper
+internal sealed class AriaRequestHelper : IDisposable
 {
     private readonly HttpClient httpClient;
 
     public AriaRequestHelper(string url, string secret)
     {
         httpClient = new HttpClient();
-        Url = url;
-        Secret = secret;
+        this.Url = url;
+        this.Secret = secret;
     }
 
     public int RetryCount { get; set; } = 5;
@@ -21,17 +23,26 @@ internal class AriaRequestHelper
 
     private string Secret { get; }
 
-    internal async Task<T> Request<T>(string method, CancellationToken cancellationToken, params object?[]? parameters)
+    public void Dispose()
     {
-        var requestUrl = $"{Url}/jsonrpc";
+        httpClient.Dispose();
+    }
+
+    internal async Task<T> RequestAsync<T>(string method, CancellationToken cancellationToken, params object?[]? parameters)
+    {
+        var requestUrl = $"{this.Url}/jsonrpc";
         var request = new RpcRequest
         {
             Id = "aria2net",
             Jsonrpc = "2.0",
             Method = method,
-            Parameters = new List<object?>()
+            Parameters = new List<object?>(),
         };
-        if (!string.IsNullOrEmpty(Secret)) { request.Parameters.Add($"token:{Secret}"); }
+        if (!string.IsNullOrEmpty(this.Secret))
+        {
+            request.Parameters.Add($"token:{this.Secret}");
+        }
+
         if (parameters is { Length: > 0 })
         {
             foreach (var parameter in parameters)
@@ -39,6 +50,7 @@ internal class AriaRequestHelper
                 request.Parameters.Add(parameter);
             }
         }
+
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
         var retryCount = 0;
         while (true)
@@ -52,7 +64,11 @@ internal class AriaRequestHelper
             catch
             {
                 retryCount++;
-                if (retryCount >= RetryCount) throw;
+                if (retryCount >= this.RetryCount)
+                {
+                    throw;
+                }
+
                 await Task.Delay(1000, cancellationToken);
             }
         }

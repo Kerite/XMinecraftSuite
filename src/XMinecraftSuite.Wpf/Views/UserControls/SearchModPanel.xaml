@@ -49,8 +49,8 @@
                         <ControlTemplate>
                             <ScrollViewer x:Name="SearchResultViewer"
                                 Padding="2,0,2,0"
-                                b:ScrollViewerBehavior.AutoScrollToTop="{Binding Reset,
-                                                                                 Mode=TwoWay}"
+                                b:ResetableScrollViewerBehavior.AutoScrollToTop="{Binding Reset,
+                                                                                          Mode=TwoWay}"
                                 CanContentScroll="True"
                                 Style="{StaticResource BorderedScrollViewer}">
                                 <i:Interaction.Behaviors>

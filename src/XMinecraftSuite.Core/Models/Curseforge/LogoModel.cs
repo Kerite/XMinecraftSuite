@@ -1,7 +1,19 @@
-﻿namespace XMinecraftSuite.Core.Models.Curseforge;
+﻿// Copyright (c) Keriteal. All rights reserved.
 
+namespace XMinecraftSuite.Core.Models.Curseforge;
+
+/// <summary>
+/// CurseForge Mod 的 Logo.
+/// </summary>
 public sealed class LogoModel
 {
-    public int Id;
-    public string ThumbnailUrl;
+    /// <summary>
+    /// Logo的Id.
+    /// </summary>
+    public int Id { get; init; }
+
+    /// <summary>
+    /// Logo的缩略图Url.
+    /// </summary>
+    public string ThumbnailUrl { get; init; } = string.Empty;
 }

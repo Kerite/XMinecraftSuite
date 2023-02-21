@@ -7,102 +7,172 @@ using XMinecraftSuite.Core.Models.Enums;
 
 namespace XMinecraftSuite.Core.Models.Modrinth;
 
+/// <summary>
+/// Modrinth项目详情定义.
+/// </summary>
 public class ModrinthProjectJson : AbstractModDetails
 {
-    public override DateTime Created => MCreated;
+    /// <inheritdoc/>
+    public override string Slug => this.MSlug;
 
-    public override string Description => MBody;
+    /// <inheritdoc/>
+    public override DateTime Created => this.MCreated;
 
-    public override int Downloads => MDownloads;
+    /// <inheritdoc/>
+    public override string Description => this.MBody;
 
-    public override int Followers => MFollowers;
+    /// <inheritdoc/>
+    public override int Downloads => this.MDownloads;
 
-    public override string[] GameVersions => MGameVersions;
+    /// <inheritdoc/>
+    public override int Followers => this.MFollowers;
 
-    public override string ImageUrl => MIconUrl;
+    /// <inheritdoc/>
+    public override string[] GameVersions => this.MGameVersions;
 
-    public override string Issues => MIssues;
+    /// <inheritdoc/>
+    public override string ImageUrl => this.MIconUrl;
 
-    public override string Name => MTitle;
+    /// <inheritdoc/>
+    public override string Issues => this.MIssues;
 
-    public override string OriginUrl => $"https://modrinth.com/mod/{MSlug}";
+    /// <inheritdoc/>
+    public override string Name => this.MTitle;
 
-    public override string ShortDescription => MDescription;
+    /// <inheritdoc/>
+    public override string OriginUrl => $"https://modrinth.com/mod/{this.Slug}";
 
-    public override EnumModSide Side => MClientSide switch
+    /// <inheritdoc/>
+    public override string ShortDescription => this.MDescription;
+
+    /// <inheritdoc/>
+    public override EnumModSide Side => this.MClientSide switch
     {
-        "optional" when "required" == MServerSide => EnumModSide.ServerSide,
-        "optional" when "optional" == MServerSide => EnumModSide.Optional,
-        "required" when "optional" == MServerSide => EnumModSide.ClientSide,
-        "required" when "required" == MServerSide => EnumModSide.Both,
-        _ => EnumModSide.Unknown
+        "optional" when this.MServerSide == "required" => EnumModSide.ServerSide,
+        "optional" when this.MServerSide == "optional" => EnumModSide.Optional,
+        "required" when this.MServerSide == "optional" => EnumModSide.ClientSide,
+        "required" when this.MServerSide == "required" => EnumModSide.Both,
+        _ => EnumModSide.Unknown,
     };
 
-    public override string Source => MSource;
-    public override DateTime Updated => MUpdated;
-    public override string Wiki => MWiki;
+    /// <inheritdoc/>
+    public override string Source => this.MSource;
 
-    [JsonPropertyName("body")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MBody { get; set; }
+    /// <inheritdoc/>
+    public override DateTime Updated => this.MUpdated;
 
-    [JsonPropertyName("client_side")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MClientSide { get; set; }
+    /// <inheritdoc/>
+    public override string Wiki => this.MWiki;
 
-    [JsonPropertyName("created")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public DateTime MCreated { get; set; }
-
-    [JsonPropertyName("description")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MDescription { get; set; }
-
-    [JsonPropertyName("downloads")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public int MDownloads { get; set; }
-
-    [JsonPropertyName("followers")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public int MFollowers { get; set; }
-
-    [JsonPropertyName("game_versions")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string[] MGameVersions { get; set; }
-
-    [JsonPropertyName("icon_url")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MIconUrl { get; set; }
-
-    [JsonPropertyName("issues_url")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MIssues { get; set; }
-
-    [JsonPropertyName("published")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MPublished { get; set; }
-
-    [JsonPropertyName("server_side")]
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MServerSide { get; set; }
-
+    /// <summary>
+    /// Json value of <see cref="Slug"/>.
+    /// </summary>
     [JsonPropertyName("slug")]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MSlug { get; set; }
+    public string MSlug { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Json value of <see cref="Description"/>.
+    /// </summary>
+    [JsonPropertyName("body")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MBody { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value.
+    /// </summary>
+    [JsonPropertyName("client_side")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MClientSide { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value of <see cref="Created"/>.
+    /// </summary>
+    [JsonPropertyName("created")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public DateTime MCreated { get; init; }
+
+    /// <summary>
+    /// Json value of <see cref="ShortDescription"/>.
+    /// </summary>
+    [JsonPropertyName("description")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MDescription { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value of <see cref="Downloads"/>.
+    /// </summary>
+    [JsonPropertyName("downloads")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public int MDownloads { get; init; }
+
+    /// <summary>
+    /// Json value of <see cref="Followers"/>.
+    /// </summary>
+    [JsonPropertyName("followers")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public int MFollowers { get; init; }
+
+    /// <summary>
+    /// Json value of <see cref="GameVersions"/>.
+    /// </summary>
+    [JsonPropertyName("game_versions")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string[] MGameVersions { get; init; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Json value of <see cref="ImageUrl"/>.
+    /// </summary>
+    [JsonPropertyName("icon_url")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MIconUrl { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value of <see cref="Issues"/>.
+    /// </summary>
+    [JsonPropertyName("issues_url")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MIssues { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value.
+    /// </summary>
+    [JsonPropertyName("published")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MPublished { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value.
+    /// </summary>
+    [JsonPropertyName("server_side")]
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public string MServerSide { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Json value of <see cref="Source"/>.
+    /// </summary>
     [JsonPropertyName("source_url")]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MSource { get; set; }
+    public string MSource { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Json value of <see cref="Name"/>.
+    /// </summary>
     [JsonPropertyName("title")]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MTitle { get; set; }
+    public string MTitle { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Json value of <see cref="Updated"/>.
+    /// </summary>
     [JsonPropertyName("updated")]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public DateTime MUpdated { get; set; }
+    public DateTime MUpdated { get; init; }
 
+    /// <summary>
+    /// Json value of <see cref="Wiki"/>.
+    /// </summary>
     [JsonPropertyName("wiki_url")]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string MWiki { get; set; }
+    public string MWiki { get; init; } = string.Empty;
 }

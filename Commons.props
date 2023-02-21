@@ -2,23 +2,33 @@
 <Project>
 
     <PropertyGroup>
-        <CodeAnalysisRuleSet>$(SolutionDir)\Common.ruleset</CodeAnalysisRuleSet>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" PrivateAssets="All" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="All" />
         <!-- Global Fody Reference -->
         <PackageReference Include="Fody" Version="6.6.4" PrivateAssets="All" />
         <PackageReference Include="Equals.Fody" Version="4.0.2" PrivateAssets="All" />
         <PackageReference Include="ToString.Fody" Version="1.11.1" PrivateAssets="All" />
         <PackageReference Include="Visualize.Fody" Version="1.2.0" PrivateAssets="All" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <!-- Microsoft Extensions -->
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" PrivateAssets="All" />
+        <!-- CommunityToolkits -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.53.0.62665">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1-preview1.23061.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="$(SolutionDir)\stylecop.json">
-            <Link>stylecop.json</Link>
-        </AdditionalFiles>
+        <AdditionalFiles Include="$(SolutionDir)\stylecop.json" Link="stylecop.json" />
     </ItemGroup>
 
 </Project>

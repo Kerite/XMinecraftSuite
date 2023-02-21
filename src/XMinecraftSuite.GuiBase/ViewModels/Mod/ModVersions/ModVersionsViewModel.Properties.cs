@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using XMinecraftSuite.Core;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Abstracts;
@@ -9,10 +10,11 @@ using XMinecraftSuite.Core.Providers;
 
 namespace XMinecraftSuite.Gui.ViewModels;
 
-public partial class ModVersionsWindowViewModel : ObservableRecipient
+/// <summary>
+/// Mod 版本列表.
+/// </summary>
+public sealed partial class ModVersionsViewModel
 {
-    public delegate ModVersionsWindowViewModel ModVersionsWindowViewModelFactory(string slug);
-
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(RenderedMinecraftVersions))]
     private static List<MinecraftVersionModel>? allGameVersions;
@@ -46,87 +48,68 @@ public partial class ModVersionsWindowViewModel : ObservableRecipient
     [ObservableProperty]
     private bool showChangeLog = true;
 
-    public ModVersionsWindowViewModel(string slug)
-    {
-        Slug = slug;
-        if (allGameVersions == null) { _ = SyncMinecraftVersions(); }
-
-        _ = SyncModVersions();
-    }
-
+    /// <summary>
+    /// Mod Slug.
+    /// </summary>
     public string Slug { get; }
 
+    /// <summary>
+    /// 显示在游戏版本列表中的游戏版本.
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Code Smell", "S2365:Properties should not make collection or array copies", Justification = "<Pending>.")]
     public List<MinecraftVersionModel> RenderedMinecraftVersions
     {
         get
         {
-            var modGameVersions = AllModVersions.SelectMany(mod => mod.GameVersions);
-            var versions = AllGameVersions?.Where(x => x.Type == EnumVersionType.Release || IncludeSnapshot)
+            var modGameVersions = this.AllModVersions.SelectMany(mod => mod.GameVersions);
+            var versions = this.AllGameVersions?.Where(x => x.Type == EnumVersionType.Release || this.IncludeSnapshot)
                 .Where(x => modGameVersions?.Contains(x.Id) ?? false);
             return versions?.ToList() ?? new List<MinecraftVersionModel>();
         }
     }
 
+    /// <summary>
+    /// 显示在Mod版本列表中的.
+    /// </summary>
     public List<AbstractModVersion> RenderedModVersions
     {
         get
         {
-            var newList = AllModVersions.Where(x => x.GameVersions.Contains(SelectedGameVersion))
+            var newList = this.AllModVersions.Where(x => x.GameVersions.Contains(this.SelectedGameVersion))
                 .ToList();
-            SelectedModVersionId = newList.FirstOrDefault()
+            this.SelectedModVersionId = newList.FirstOrDefault()
                 ?.VersionId;
             return newList;
         }
     }
 
-    private bool CanLoadMinecraftVersion()
-    {
-        return !LoadingMinecraftVersion;
-    }
-
-    partial void OnSelectedGameVersionChanged(string? value)
-    {
-        WeakReferenceMessenger.Default.Send(new GameVersionSelectedMessage(value));
-    }
-
-    partial void OnSelectedModVersionIdChanged(string? value)
-    {
-        WeakReferenceMessenger.Default.Send(new ModVersionSelectedMessage(value));
-    }
-
-    partial void OnShowChangeLogChanged(bool value) { }
-
     [RelayCommand]
     private void SelectModVersion(AbstractModVersion version)
     {
-        SelectedModVersionId = version.VersionId;
+        this.SelectedModVersionId = version.VersionId;
     }
 
     [RelayCommand(CanExecute = nameof(CanLoadMinecraftVersion))]
-    private async Task SyncMinecraftVersions()
+    private async Task SyncMinecraftVersionsAsync()
     {
-        LoadingMinecraftVersion = true;
+        this.LoadingMinecraftVersion = true;
         var resultModels = await MCRequestHelper.Instance.GetMinecraftVersionsModelAsync(true);
-        AllGameVersions = resultModels ?? new List<MinecraftVersionModel>();
-        LoadingMinecraftVersion = false;
+        this.AllGameVersions = resultModels ?? new List<MinecraftVersionModel>();
+        this.LoadingMinecraftVersion = false;
     }
 
     [RelayCommand]
-    private async Task SyncModVersions()
+    private async Task SyncModVersionsAsync()
     {
-        LoadingModVersion = true;
-        AllModVersions.Clear();
-        var provider = GlobalModProviderProxy.Instance[ProviderKey];
+        this.LoadingModVersion = true;
+        this.AllModVersions.Clear();
+        var provider = GlobalModProviderProxy.Instance[this.ProviderKey];
         if (provider != null)
         {
-            var list = await provider.GetModVersionsAsync(Slug);
-            AllModVersions = list ?? new List<AbstractModVersion>();
+            var list = await provider.GetModVersionsAsync(this.Slug);
+            this.AllModVersions = list ?? new List<AbstractModVersion>();
         }
 
-        LoadingModVersion = false;
+        this.LoadingModVersion = false;
     }
-
-    public record GameVersionSelectedMessage(string? GameVersion);
-
-    public record ModVersionSelectedMessage(string? ModVersionId);
 }

@@ -1,32 +1,61 @@
-﻿using System.Globalization;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Globalization;
 using System.Net.Cache;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace XMinecraftSuite.Wpf.Converters;
 
+/// <summary>
+/// 将 <see cref="string"/> 转换到 <see cref="ImageSource"/>.
+/// </summary>
 public class BitmapImageConverter : TypedValueConverter<string, ImageSource?>
 {
+    /// <summary>
+    /// 需要的图像高度.
+    /// </summary>
     public int? Height { get; set; }
+
+    /// <summary>
+    /// 需要的图像宽度.
+    /// </summary>
     public int? Width { get; set; }
+
+    /// <summary>
+    /// 默认的图像.
+    /// </summary>
     public BitmapImage? FallbackImage { get; set; }
 
-    protected override ImageSource? NewConvert(string source, Type targetType, object parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    protected override ImageSource? NewConvert(string source, object parameter, CultureInfo culture)
     {
         if (string.IsNullOrEmpty(source))
-            return FallbackImage;
+        {
+            return this.FallbackImage;
+        }
+
         var bitmap = new BitmapImage();
         bitmap.BeginInit();
         bitmap.UriSource = new Uri(source);
         bitmap.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.CacheIfAvailable);
         bitmap.CacheOption = BitmapCacheOption.OnLoad;
-        if (Height is not null) bitmap.DecodePixelHeight = (int)Height;
-        if (Width is not null) bitmap.DecodePixelWidth = (int)Width;
+        if (this.Height is not null)
+        {
+            bitmap.DecodePixelHeight = (int)this.Height;
+        }
+
+        if (this.Width is not null)
+        {
+            bitmap.DecodePixelWidth = (int)this.Width;
+        }
+
         bitmap.EndInit();
         return bitmap;
     }
 
-    protected override string NewConvertBack(ImageSource? back, Type targetType, object parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    protected override string NewConvertBack(ImageSource? back, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

@@ -13,9 +13,9 @@ namespace XMinecraftSuite.Wpf;
 public static class Commands
 {
     /// <summary>
-    /// .
+    /// 显示下载Mod文件命令.
     /// </summary>
-    public static readonly RelayCommand<string> DownloadModFileDialogCommand = new((parameter) =>
+    public static readonly RelayCommand<string> ShowModVersionsCommand = new((parameter) =>
     {
         if (parameter == null)
         {
@@ -40,5 +40,8 @@ public static class Commands
         Process.Start(new ProcessStartInfo("explorer.exe", url));
     });
 
+    /// <summary>
+    /// 退出应用命令.
+    /// </summary>
     public static readonly RelayCommand<object> QuitCommand = new((_) => Environment.Exit(0));
 }

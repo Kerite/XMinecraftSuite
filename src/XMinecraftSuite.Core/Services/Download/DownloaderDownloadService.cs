@@ -6,7 +6,7 @@ using XMinecraftSuite.Core.Models.Download;
 
 namespace XMinecraftSuite.Core.Services.Download;
 
-internal class DownloaderDownloadService : IDownloadService
+internal sealed class DownloaderDownloadService : IDownloadService
 {
     public ObservableCollection<DownloadTask> Tasks { get; } = new();
 
@@ -19,9 +19,10 @@ internal class DownloaderDownloadService : IDownloadService
             .WithUrl(taskInfo.Url)
             .WithDirectory(taskInfo.Path.Directory!.FullName)
             .Build();
+        download.StartAsync();
     }
 
-    public void Cancel(DownloadTaskInfo task)
+    public void Cancel(DownloadTaskInfo taskInfo)
     {
         throw new NotImplementedException();
     }

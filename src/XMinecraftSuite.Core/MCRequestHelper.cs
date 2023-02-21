@@ -14,77 +14,97 @@ namespace XMinecraftSuite.Core;
 /// <summary>
 ///  用于访问MC相关API的帮助类.
 /// </summary>
-public class MCRequestHelper
+public sealed class MCRequestHelper
 {
     /// <summary>
     /// 单例.
     /// </summary>
     public static readonly MCRequestHelper Instance = new();
 
-    public bool UseHmclApi { get; set; } = false;
-
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
         Converters = { new JsonStringEnumConverter(new SnakeCaseNamingPolicy()) },
     };
 
-    private static readonly HttpClient HmclApiClient = new()
+    private static readonly HttpClient bmclApiClient = new()
     {
         BaseAddress = new Uri("https://bmclapi2.bangbang93.com/"),
     };
 
-    private static readonly HttpClient OfficialClient = new()
+    private static readonly HttpClient officialApiClient = new()
     {
         BaseAddress = new Uri("http://launchermeta.mojang.com/"),
     };
 
     static MCRequestHelper()
     {
-        OfficialClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        HmclApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        officialApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        bmclApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    private HttpClient CurrentClient => UseHmclApi ? HmclApiClient : OfficialClient;
+    /// <summary>
+    /// 使用HmclApi.
+    /// </summary>
+    public bool UseHmclApi { get; set; } = false;
 
+    private HttpClient CurrentClient => this.UseHmclApi ? bmclApiClient : officialApiClient;
+
+    /// <summary>
+    /// 获取 Minecraft 版本列表.
+    /// </summary>
+    /// <param name="includeSnapshotAndLegacy">包括快照和旧版.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task<List<MinecraftVersionModel>> GetMinecraftVersionsModelAsync(bool includeSnapshotAndLegacy)
     {
-        var responseMessage = await CurrentClient.GetAsync("mc/game/version_manifest_v2.json");
-        if (!responseMessage.IsSuccessStatusCode)
-        {
-            throw new Exception("Request Minecraft Version Failed");
-        }
+        var responseMessage = await this.CurrentClient.GetAsync("mc/game/version_manifest_v2.json");
 
+        Guard.IsTrue(responseMessage.IsSuccessStatusCode);
         var jsonString = await responseMessage.Content.ReadAsStringAsync();
-        Guard.IsNotNullOrEmpty(jsonString);
 
+        Guard.IsNotNullOrEmpty(jsonString);
         var versionsJson = JsonNode.Parse(jsonString)?["versions"]?.AsArray();
-        if (versionsJson == null)
-            throw new Exception("Parse Version List Json Failed");
-        return versionsJson.Select(version => version.Deserialize<MinecraftVersionModel>(JsonSerializerOptions))
+
+        Guard.IsNotNull(versionsJson);
+        return versionsJson.Select(version => version.Deserialize<MinecraftVersionModel>(jsonSerializerOptions))
             .Where(versionModel =>
             {
-                if (versionModel == null)
-                    return false;
+                Guard.IsNotNull(versionModel);
                 return includeSnapshotAndLegacy || versionModel.Type == EnumVersionType.Release;
             })
             .ToList()!;
     }
 
+    /// <summary>
+    /// 获取 Minecraft 游戏列表.
+    /// </summary>
+    /// <param name="includeSnapshotAndLegacy">包含快照.</param>
+    /// <returns>Minecraft 版本列表.</returns>
     public async Task<string[]> GetMinecraftVersionsStringAsync(bool includeSnapshotAndLegacy)
     {
         return (await GetMinecraftVersionsModelAsync(includeSnapshotAndLegacy)).Select(versionModel => versionModel.Id)
             .ToArray();
     }
 
-    public async Task<byte[]> GetOptifineDownloadUrlAsync(string mcVersion, string patch)
+    /// <summary>
+    /// 获取对应版本的 Optifine 的下载链接.
+    /// </summary>
+    /// <param name="mcVersion">Minecraft 版本.</param>
+    /// <param name="patch">Optifine 的补丁版本号.</param>
+    /// <returns>Optifine 下载 Url.</returns>
+    public async Task<string> GetOptifineDownloadUrlAsync(string mcVersion, string patch)
     {
-        var request = await HmclApiClient.GetAsync($"optifine/{mcVersion}/HD_U/{patch}");
-        throw new NotImplementedException();
+        _ = await bmclApiClient.GetAsync($"optifine/{mcVersion}/HD_U/{patch}");
+        return string.Empty;
     }
 
+    /// <summary>
+    /// 获取 Optifine 版本列表.
+    /// </summary>
+    /// <param name="mcVersion">Minecraft 版本.</param>
+    /// <returns>Optifine 版本列表.</returns>
     public async Task<OptifineVersionModel[]> GetOptifineVersionsAsync(string mcVersion)
     {
-        var request = await HmclApiClient.GetAsync($"optifine/{mcVersion}");
-        throw new NotImplementedException();
+        _ = await bmclApiClient.GetAsync($"optifine/{mcVersion}");
+        return Array.Empty<OptifineVersionModel>();
     }
 }

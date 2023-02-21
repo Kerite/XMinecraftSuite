@@ -2,17 +2,6 @@
 
     <Import Project="$(SolutionDir)\Commons.props" />
 
-    <ItemGroup>
-      <Compile Remove="C:\Users\Kerit\source\repos\XMinecraftSuite\\SharedAssemblyInfo.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="C:\Users\Kerit\source\repos\XMinecraftSuite\\SharedAssemblyInfo.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-    </ItemGroup>
-    
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
@@ -23,32 +12,20 @@
         <IsPublishable>True</IsPublishable>
         <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
         <ImplicitUsings>enable</ImplicitUsings>
-        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DebugType>full</DebugType>
+        <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>full</DebugType>
+        <DebugType>none</DebugType>
+        <CodeAnalysisRuleSet />
     </PropertyGroup>
 
     <ItemGroup>
-        <COMReference Include="IDManLib">
-            <WrapperTool>tlbimp</WrapperTool>
-            <VersionMinor>0</VersionMinor>
-            <VersionMajor>1</VersionMajor>
-            <Guid>ecf21eab-3aa8-4355-82be-f777990001dd</Guid>
-            <Lcid>0</Lcid>
-            <Isolated>false</Isolated>
-            <EmbedInteropTypes>False</EmbedInteropTypes>
-        </COMReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="App.config" />
         <EmbeddedResource Update="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -91,6 +68,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\XMinecraftSuite.GuiBase\XMinecraftSuite.Gui.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="IDManLib">
+        <HintPath>..\..\XMinecraftSuite.Wpf\Dlls\IDManLib.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

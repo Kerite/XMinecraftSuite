@@ -17,14 +17,14 @@ internal static class ServiceRegister
     internal static IServiceCollection RegisterViewModels(this IServiceCollection services)
     {
         services.AddTransient<MainWindowViewModel>();
-        services.AddTransient<ModDetailsViewModel>();
-        services.AddTransient<ModVersionsWindowViewModel>();
+        services.AddTransient<ModDetailViewModel>();
+        services.AddTransient<ModVersionsViewModel>();
         services.AddTransient<SearchModListViewModel>();
-        services.AddTransient<PanelModProviderSelectorViewModel>();
+        services.AddTransient<ModProviderSelectorViewModel>();
         services.AddTransient(_ =>
         {
-            return new ModVersionsWindowViewModel.ModVersionsWindowViewModelFactory(param =>
-                new ModVersionsWindowViewModel(param));
+            return new ModVersionsViewModel.ModVersionsWindowViewModelFactory(param =>
+                new ModVersionsViewModel(param));
         });
         return services;
     }
@@ -35,7 +35,7 @@ internal static class ServiceRegister
         services.AddTransient<ModVersionsListWindow>();
         services.AddTransient(p => new ModVersionsListWindowFactory(param =>
             new ModVersionsListWindow(
-                p.GetRequiredService<ModVersionsWindowViewModel.ModVersionsWindowViewModelFactory>(), param)));
+                p.GetRequiredService<ModVersionsViewModel.ModVersionsWindowViewModelFactory>(), param)));
         services.AddTransient<DownloadManagerPanel>();
         return services;
     }
@@ -47,7 +47,7 @@ internal static class ServiceRegister
         services.AddOptions();
 
         // Register Download Services
-        services.AddSingleton<IDownloadService, IDMDownloadManager>();
+        services.AddSingleton<IDownloadService, IdmDownloadManager>();
         services.AddSingleton<GlobalModProviderProxy>();
         return services;
     }

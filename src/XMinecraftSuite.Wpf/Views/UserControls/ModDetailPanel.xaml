@@ -9,7 +9,7 @@
     xmlns:vm="clr-namespace:XMinecraftSuite.Gui.ViewModels;assembly=XMinecraftSuite.Gui"
     xmlns:wpf="clr-namespace:XMinecraftSuite.Wpf"
     d:Background="White"
-    d:DataContext="{d:DesignInstance Type=vm:ModDetailsViewModel}"
+    d:DataContext="{d:DesignInstance Type=vm:ModDetailViewModel}"
     d:DesignHeight="500"
     d:Width="400"
     mc:Ignorable="d">
@@ -77,8 +77,6 @@
         <ScrollViewer x:Name="DescriptionPanel"
             Grid.Row="2"
             Margin="0,10" Padding="2"
-            behaviors:ScrollViewerBehavior.AutoScrollToTop="{Binding Mode=TwoWay,
-                                                                     Path=Reset}"
             Style="{StaticResource BorderedScrollViewer}">
             <TextBlock
                 d:Text="Mod Detailed Description Here" FontSize="15"
@@ -115,8 +113,7 @@
                     Command="{x:Static wpf:Commands.OpenUrlCommand}"
                     CommandParameter="{Binding ModDetail.Source}"
                     FontSize="13"
-                    NavigateUri="{Binding ModDetail.Source,
-                                          FallbackValue={x:Static wpf:Constants.DefaultUri}}"
+                    NavigateUri="{Binding ModDetail.Source}"
                     ToolTip="{Binding ModDetail.Source}">
                     Source
                 </Hyperlink>
@@ -134,8 +131,7 @@
                     Command="{x:Static wpf:Commands.OpenUrlCommand}"
                     CommandParameter="{Binding ModDetail.Wiki}"
                     FontSize="13"
-                    NavigateUri="{Binding ModDetail.Wiki,
-                                          FallbackValue={x:Static wpf:Constants.DefaultUri}}"
+                    NavigateUri="{Binding ModDetail.Wiki}"
                     ToolTip="{Binding ModDetail.Source}">
                     Wiki
                 </Hyperlink>
@@ -153,8 +149,7 @@
                     Command="{x:Static wpf:Commands.OpenUrlCommand}"
                     CommandParameter="{Binding ModDetail.Issues}"
                     FontSize="13"
-                    NavigateUri="{Binding ModDetail.Issues,
-                                          FallbackValue={x:Static wpf:Constants.DefaultUri}}"
+                    NavigateUri="{Binding ModDetail.Issues}"
                     ToolTip="{Binding ModDetail.Issues}">
                     Issues
                 </Hyperlink>

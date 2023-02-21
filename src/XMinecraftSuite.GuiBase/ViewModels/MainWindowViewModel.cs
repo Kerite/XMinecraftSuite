@@ -1,11 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using XMinecraftSuite.Core.Models.Abstracts;
 using XMinecraftSuite.Core.Providers;
 
 namespace XMinecraftSuite.Gui.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject, IDisposable
+/// <summary>
+/// 主窗口ViewModel.
+/// </summary>
+public sealed partial class MainWindowViewModel : ObservableObject, IDisposable
 {
     private CancellationTokenSource cancellationTokenSource = new();
 
@@ -33,23 +38,55 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private string? selectedModSlug;
 
-    public SearchModListViewModel SearchModListViewModel { get; set; } = new() { IsActive = true };
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+    /// </summary>
+    /// <param name="searchModListViewModel"><see cref="SearchModListViewModel"/>.</param>
+    /// <param name="panelModProviderSelectorViewModel"><see cref="ModProviderSelectorViewModel"/>.</param>
+    /// <param name="modDetailViewModel"><see cref="ModDetailViewModel"/>.</param>
+    public MainWindowViewModel(SearchModListViewModel searchModListViewModel, ModProviderSelectorViewModel panelModProviderSelectorViewModel, ModDetailViewModel modDetailViewModel)
+    {
+        this.SearchModListViewModel = searchModListViewModel;
+        this.SearchModListViewModel.IsActive = true;
 
-    public PanelModProviderSelectorViewModel PanelModProviderSelectorViewModel { get; set; } =
-        new() { IsActive = true };
+        this.ModProviderSelectorViewModel = panelModProviderSelectorViewModel;
+        this.ModProviderSelectorViewModel.IsActive = true;
 
-    public ModDetailsViewModel ModDetailsViewModel { get; set; } = new() { IsActive = true };
+        this.ModDetailsViewModel = modDetailViewModel;
+        this.ModDetailsViewModel.IsActive = true;
+    }
 
+    /// <summary>
+    /// Mod 搜索列表.
+    /// </summary>
+    public SearchModListViewModel SearchModListViewModel { get; init; }
+
+    /// <summary>
+    /// ModProviderSelectorViewModel.
+    /// </summary>
+    public ModProviderSelectorViewModel ModProviderSelectorViewModel { get; init; }
+
+    /// <summary>
+    /// Mod 详情.
+    /// </summary>
+    public ModDetailViewModel ModDetailsViewModel { get; init; }
+
+    /// <inheritdoc/>
     public void Dispose()
     {
+        cancellationTokenSource.Cancel();
+        this.SearchModListViewModel.IsActive = false;
+        this.ModDetailsViewModel.IsActive = false;
+        this.ModProviderSelectorViewModel.IsActive = false;
         GC.SuppressFinalize(this);
     }
 
+    /// <summary>
+    /// 选择 Mod.
+    /// </summary>
+    /// <param name="slug">Mod 的 Slug.</param>
     [RelayCommand]
-    public void SelectMod(string? slug)
-    {
-        SelectedModSlug = slug;
-    }
+    public void SelectMod(string? slug) => this.SelectedModSlug = slug;
 
     partial void OnSelectedModSlugChanged(string? value)
     {
@@ -61,7 +98,8 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
             if (value != null && provider != null)
             {
                 var data = await provider.GetModDetailAsync(value);
-                if (!newCancellationTokenSource.IsCancellationRequested) { ModDetails = data; }
+                if (!newCancellationTokenSource.IsCancellationRequested)
+                { ModDetails = data; }
             }
         }, newCancellationTokenSource.Token);
         cancellationTokenSource = newCancellationTokenSource;

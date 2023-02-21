@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,15 +10,11 @@ using XMinecraftSuite.Core.Providers;
 
 namespace XMinecraftSuite.Gui.ViewModels;
 
+/// <summary>
+/// 搜索模组的结果.
+/// </summary>
 public partial class SearchModListViewModel : ObservableRecipient, IRecipient<GuiMessages.ModProviderSelectedMessage>
 {
-    public SearchModListViewModel()
-    {
-        _ = Search();
-    }
-
-    public ObservableCollection<AbstractModSearchResult> ModSearchResults { get; set; } = new();
-
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string providerKey = "modrinth";
@@ -38,51 +36,60 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string selectedSlug = string.Empty;
 
-    public void Receive(GuiMessages.ModProviderSelectedMessage message)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SearchModListViewModel"/> class.
+    /// </summary>
+    public SearchModListViewModel()
     {
-        ProviderKey = message.Provider;
-    }
-
-    private bool CanSearch()
-    {
-        return !Searching;
-    }
-
-    partial void OnSelectedSlugChanged(string value)
-    {
-        WeakReferenceMessenger.Default.Send(new GuiMessages.ModSelectedMessage(value));
+        _ = SearchAsync();
     }
 
     /// <summary>
-    ///
+    /// Mod 搜索结果.
     /// </summary>
-    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    public ObservableCollection<AbstractModSearchResult> ModSearchResults { get; set; } = new();
+
+    /// <inheritdoc/>
+    public void Receive(GuiMessages.ModProviderSelectedMessage message)
+    {
+        this.ProviderKey = message.Provider;
+    }
+
+    /// <summary>
+    /// 加载更多.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     [RelayCommand]
     public async Task LoadMoreAsync()
     {
-        if (Searching)
+        if (this.Searching)
         {
             return;
         }
 
-        Searching = true;
-        var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
+        this.Searching = true;
+        var modProvider = GlobalModProviderProxy.Instance[this.ProviderKey];
         if (modProvider != null)
         {
-            var searchResult = string.IsNullOrEmpty(SearchKeyWord)
-                ? await modProvider.SearchModAsync(offset: ModSearchResults.Count)
-                : await modProvider.SearchModAsync(SearchKeyWord, offset: ModSearchResults.Count);
+            var searchResult = string.IsNullOrEmpty(this.SearchKeyWord)
+                ? await modProvider.SearchModAsync(offset: this.ModSearchResults.Count)
+                : await modProvider.SearchModAsync(this.SearchKeyWord, offset: this.ModSearchResults.Count);
             foreach (var mod in searchResult)
             {
-                ModSearchResults.Add(mod);
+                this.ModSearchResults.Add(mod);
             }
         }
 
-        Searching = false;
+        this.Searching = false;
     }
 
+    /// <summary>
+    /// 搜索 Mod.
+    /// </summary>
+    /// <param name="keyWord">关键字.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     [RelayCommand(CanExecute = nameof(CanSearch))]
-    public async Task Search(string? keyWord = null)
+    public async Task SearchAsync(string? keyWord = null)
     {
         if (this.Searching)
         {
@@ -92,26 +99,43 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
         this.ModSearchResults.Clear();
         this.Searching = true;
         this.SearchKeyWord = keyWord ?? string.Empty;
-        var modProvider = GlobalModProviderProxy.Instance[ProviderKey];
+        var modProvider = GlobalModProviderProxy.Instance[this.ProviderKey];
         if (modProvider != null)
         {
-            var result = string.IsNullOrEmpty(SearchKeyWord)
+            var result = string.IsNullOrEmpty(this.SearchKeyWord)
                 ? await modProvider.SearchModAsync()
-                : await modProvider.SearchModAsync(SearchKeyWord);
+                : await modProvider.SearchModAsync(this.SearchKeyWord);
             foreach (var mod in result)
-                ModSearchResults.Add(mod);
-            SelectedSlug = ModSearchResults.First()
+            {
+                this.ModSearchResults.Add(mod);
+            }
+
+            this.SelectedSlug = this.ModSearchResults.First()
                 .Slug;
         }
 
-        Reset = true;
-        Reset = false;
-        Searching = false;
+        this.Reset = true;
+        this.Reset = false;
+        this.Searching = false;
     }
 
+    /// <summary>
+    /// 选择 Mod.
+    /// </summary>
+    /// <param name="slug">被选择的Slug.</param>
     [RelayCommand]
     public void SelectMod(string slug)
     {
-        SelectedSlug = slug;
+        this.SelectedSlug = slug;
+    }
+
+    private bool CanSearch()
+    {
+        return !this.Searching;
+    }
+
+    partial void OnSelectedSlugChanged(string value)
+    {
+        WeakReferenceMessenger.Default.Send(new GuiMessages.ModSelectedMessage(value));
     }
 }

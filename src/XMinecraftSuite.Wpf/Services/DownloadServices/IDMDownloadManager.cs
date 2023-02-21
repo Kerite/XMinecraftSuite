@@ -9,19 +9,32 @@ using XMinecraftSuite.Core.Services.Download;
 
 namespace XMinecraftSuite.Wpf.Services.DownloadServices;
 
-public sealed class IDMDownloadManager : IDownloadService
+/// <summary>
+/// IDM下载服务.
+/// </summary>
+public sealed class IdmDownloadManager : IDownloadService
 {
-    public IDMDownloadManager(ConfigService options)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IdmDownloadManager"/> class.
+    /// </summary>
+    /// <param name="options">自动注入的配置服务.</param>
+    public IdmDownloadManager(ConfigService options)
     {
-        AppSettings = options.GetConfig<CoreSettings>();
+        this.CoreConfigurations = options.GetConfig<CoreSettings>();
     }
 
-    public CoreSettings AppSettings { get; set; }
+    /// <summary>
+    /// 核心设置.
+    /// </summary>
+    public CoreSettings CoreConfigurations { get; set; }
 
+    /// <inheritdoc/>
     public string ServiceName => "idm";
 
+    /// <inheritdoc/>
     public ObservableCollection<DownloadTask> Tasks { get; } = new();
 
+    /// <inheritdoc/>
     public void Download(DownloadTaskInfo taskInfo)
     {
         new CIDMLinkTransmitterClass().SendLinkToIDM(
@@ -37,5 +50,6 @@ public sealed class IDMDownloadManager : IDownloadService
         throw new NotImplementedException();
     }
 
+    /// <inheritdoc/>
     public void Cancel(DownloadTaskInfo taskInfo) => throw new NotImplementedException();
 }

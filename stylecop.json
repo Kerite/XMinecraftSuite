@@ -27,7 +27,8 @@
         "readonly"
       ],
       "usingDirectivesPlacement": "outsideNamespace",
-      "systemUsingDirectivesFirst": true
+      "systemUsingDirectivesFirst": true,
+      "blankLinesBetweenUsingGroups": "omit"
     },
     "maintainabilityRules": {
       "topLevelTypes": [

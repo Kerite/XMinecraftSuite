@@ -9,6 +9,10 @@ namespace XMinecraftSuite.Gui.ViewModels;
 /// </summary>
 public sealed class ConfigurationViewModel : ViewModelBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConfigurationViewModel"/> class.
+    /// </summary>
+    /// <param name="configService">配置服务.</param>
     public ConfigurationViewModel(ConfigService configService)
     {
         this.ConfigService = configService;

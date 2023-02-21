@@ -10,9 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D62A79F-2FA0-497F-917B-C7FBA4AAF1E2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Common.ruleset = Common.ruleset
 		Commons.props = Commons.props
-		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject

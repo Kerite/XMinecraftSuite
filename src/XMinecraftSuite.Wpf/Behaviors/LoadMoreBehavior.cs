@@ -12,9 +12,15 @@ namespace XMinecraftSuite.Wpf.Behaviors;
 /// </summary>
 public sealed class LoadMoreBehavior : Behavior<ScrollViewer>
 {
+    /// <summary>
+    /// <see cref="CommandParameter"/>的依赖属性.
+    /// </summary>
     public static readonly DependencyProperty CommandParameterProperty =
         DependencyProperty.Register("CommandParameter", typeof(object), typeof(LoadMoreBehavior));
 
+    /// <summary>
+    /// <see cref="Command"/>的依赖属性.
+    /// </summary>
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register("Command", typeof(ICommand), typeof(LoadMoreBehavior));
 
@@ -36,9 +42,10 @@ public sealed class LoadMoreBehavior : Behavior<ScrollViewer>
         set => SetValue(CommandParameterProperty, value);
     }
 
+    /// <inheritdoc/>
     protected override void OnAttached()
     {
-        AssociatedObject.ScrollChanged += ScrollChanged;
+        this.AssociatedObject.ScrollChanged += ScrollChanged;
     }
 
     private void ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -50,7 +57,7 @@ public sealed class LoadMoreBehavior : Behavior<ScrollViewer>
 
         if (Math.Abs(e.VerticalOffset + e.ViewportHeight - e.ExtentHeight) < 0.001)
         {
-            Command?.Execute(CommandParameter);
+            this.Command?.Execute(this.CommandParameter);
         }
     }
 }

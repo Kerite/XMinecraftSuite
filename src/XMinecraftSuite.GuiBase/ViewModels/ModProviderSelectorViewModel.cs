@@ -1,9 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace XMinecraftSuite.Gui.ViewModels;
 
-public partial class PanelModProviderSelectorViewModel : ObservableRecipient
+/// <summary>
+/// ModProvider选择器.
+/// </summary>
+public partial class ModProviderSelectorViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private string selectedProvider = "modrinth";

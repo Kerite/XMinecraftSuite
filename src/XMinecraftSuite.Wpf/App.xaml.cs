@@ -19,9 +19,8 @@ public partial class App : Application
     /// </summary>
     public static IServiceProvider? ServiceProvider { get; private set; }
 
-#pragma warning disable SA1600 // Elements should be documented
+    /// <inheritdoc/>
     protected override void OnStartup(StartupEventArgs e)
-#pragma warning restore SA1600 // Elements should be documented
     {
         var coreSettings = new ConfigServiceBuilder("config.json").RegisterConfig<CoreSettings>()
             .Build();

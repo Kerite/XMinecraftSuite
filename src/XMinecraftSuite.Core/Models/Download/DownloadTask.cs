@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Keriteal. All rights reserved.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace XMinecraftSuite.Core.Models.Download;
 
@@ -7,34 +9,57 @@ namespace XMinecraftSuite.Core.Models.Download;
 /// </summary>
 public partial class DownloadTask : ObservableObject
 {
-    public delegate void TaskProgressHandler(DownloadTaskInfo taskInfo, double progress);
-
-    public delegate void TaskCompletedHandler(DownloadTaskInfo task);
-
     private double progress = 0.0;
 
-    public event TaskProgressHandler? OnProgress;
-
-    public event TaskCompletedHandler? OnCompleted;
-
-    public DownloadTaskInfo TaskInfo { get; }
-
-    public DownloadTask(DownloadTaskInfo task)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DownloadTask"/> class.
+    /// </summary>
+    public DownloadTask()
     {
-        TaskInfo = task;
     }
 
+    /// <summary>
+    /// 进度更改的委托.
+    /// </summary>
+    /// <param name="taskInfo">进度更改的下载信息.</param>
+    /// <param name="progress">下载进度.</param>
+    public delegate void TaskProgressHandler(DownloadTaskInfo taskInfo, double progress);
+
+    /// <summary>
+    /// 任务下载完成的委托.
+    /// </summary>
+    /// <param name="task">完成的下载信息.</param>
+    public delegate void TaskCompletedHandler(DownloadTaskInfo task);
+
+    /// <summary>
+    /// 进度更改的事件.
+    /// </summary>
+    public event TaskProgressHandler? OnProgress;
+
+    /// <summary>
+    /// 任务完成的事件.
+    /// </summary>
+    public event TaskCompletedHandler? OnCompleted;
+
+    /// <summary>
+    /// 任务的下载信息.
+    /// </summary>
+    public required DownloadTaskInfo TaskInfo { get; init; }
+
+    /// <summary>
+    /// 下载进度.
+    /// </summary>
     public double Progress
     {
         get => progress;
         set
         {
             progress = value;
-            OnPropertyChanged(nameof(Progress));
-            OnProgress?.Invoke(TaskInfo, progress);
+            OnPropertyChanged(nameof(this.Progress));
+            OnProgress?.Invoke(this.TaskInfo, progress);
             if (value >= 100)
             {
-                OnCompleted?.Invoke(TaskInfo);
+                OnCompleted?.Invoke(this.TaskInfo);
             }
         }
     }
