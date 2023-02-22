@@ -7,7 +7,7 @@ namespace XMinecraftSuite.Core.Models;
 /// <summary>
 /// Optifine 版本.
 /// </summary>
-[Serializable]
+[ToString]
 public sealed class OptifineVersionModel
 {
     /// <summary>

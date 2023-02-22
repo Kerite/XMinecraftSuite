@@ -5,7 +5,8 @@ namespace XMinecraftSuite.Core.Models;
 /// <summary>
 /// Mod依赖项.
 /// </summary>
-public class ModDependencyModel
+[ToString]
+public sealed class ModDependencyModel
 {
     /// <summary>
     /// 依赖的Mod的名字.

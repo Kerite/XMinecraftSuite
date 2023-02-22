@@ -5,7 +5,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using XMinecraftSuite.Wpf.Commons;
 
 namespace XMinecraftSuite.Wpf.Converters;
 
@@ -20,6 +22,11 @@ public class UniversalTypeConverter : IValueConverter
         if (value is Bitmap bitmapValue && targetType == typeof(BitmapSource))
         {
             return Imaging.CreateBitmapSourceFromHBitmap(bitmapValue.GetHbitmap(), nint.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        }
+
+        if (value is SixLabors.ImageSharp.Image imageValue && targetType == typeof(ImageSource))
+        {
+            return Imaging.CreateBitmapSourceFromHBitmap(imageValue.ToBitmap().GetHbitmap(), nint.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
 
         if (value is string && targetType == typeof(Uri))

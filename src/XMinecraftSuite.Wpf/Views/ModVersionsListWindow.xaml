@@ -14,7 +14,7 @@
     Title="ModFilesListWindow"
     Width="640"
     Height="480"
-    d:DataContext="{d:DesignInstance Type=vm:ModVersionsWindowViewModel}"
+    d:DataContext="{d:DesignInstance Type=vm:ModVersionsViewModel}"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

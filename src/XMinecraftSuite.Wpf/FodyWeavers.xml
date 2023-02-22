@@ -1,6 +1,6 @@
 ﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-	<Visualize PrivateAssets="All" />
-	<ToString PrivateAssets="All" />
-	<AsyncErrorHandler PrivateAssets="All" />
-	<Equals PrivateAssets="All" />
+    <AsyncErrorHandler></AsyncErrorHandler>
+    <Equals></Equals>
+    <ToString></ToString>
+    <Visualize></Visualize>
 </Weavers>

@@ -13,18 +13,14 @@
         <PackageReference Include="Equals.Fody" Version="4.0.2" PrivateAssets="All" />
         <PackageReference Include="ToString.Fody" Version="1.11.1" PrivateAssets="All" />
         <PackageReference Include="Visualize.Fody" Version="1.2.0" PrivateAssets="All" />
+        <PackageReference Include="AsyncErrorHandler.Fody" Version="1.3.0" PrivateAssets="All" />
         <!-- Microsoft Extensions -->
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" PrivateAssets="All" />
         <!-- CommunityToolkits -->
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" PrivateAssets="All" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.53.0.62665">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1-preview1.23061.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <!-- Code Analyze -->
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.53.0.62665" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1-preview1.23061.1" />
     </ItemGroup>
 
     <ItemGroup>

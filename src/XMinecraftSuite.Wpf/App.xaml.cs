@@ -33,6 +33,12 @@ public partial class App : Application
 
         ServiceProvider.GetRequiredService<MainWindow>()
             .Show();
+
+        AsyncErrorHandler.AsyncExceptionOccurred += (exception) =>
+        {
+            MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        };
+
         base.OnStartup(e);
     }
 }

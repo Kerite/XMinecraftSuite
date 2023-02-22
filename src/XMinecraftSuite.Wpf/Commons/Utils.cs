@@ -1,7 +1,13 @@
 ﻿// Copyright (c) Keriteal. All rights reserved.
 
+using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace XMinecraftSuite.Wpf.Commons
 {
@@ -25,6 +31,40 @@ namespace XMinecraftSuite.Wpf.Commons
                 ResizeMode = ResizeMode.NoResize,
             };
             window.ShowDialog();
+        }
+
+        /// <summary>
+        /// 转换 <see cref="Image{TPixel}"/> 到 <see cref="Bitmap"/>.
+        /// </summary>
+        /// <typeparam name="TPixel">Pixel Type.</typeparam>
+        /// <param name="image">The source image.</param>
+        /// <returns>A bitmap converted from <see cref="Image{TPixel}"/>.</returns>
+        public static Bitmap ToBitmap<TPixel>(this Image<TPixel> image)
+            where TPixel : unmanaged, IPixel<TPixel>
+        {
+            using var memoryStream = new MemoryStream();
+            var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
+            image.Save(memoryStream, imageEncoder);
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return new Bitmap(memoryStream);
+        }
+
+        /// <summary>
+        /// 转换 <see cref="SixLabors.ImageSharp.Image"/> 到 <see cref="Bitmap"/>.
+        /// </summary>
+        /// <param name="image">The source image.</param>
+        /// <returns>A bitmap converted from <see cref="Image{TPixel}"/>.</returns>
+        public static Bitmap ToBitmap(this SixLabors.ImageSharp.Image image)
+        {
+            using var memoryStream = new MemoryStream();
+            var imageEncoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(PngFormat.Instance);
+            image.Save(memoryStream, imageEncoder);
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            return new Bitmap(memoryStream);
         }
     }
 }

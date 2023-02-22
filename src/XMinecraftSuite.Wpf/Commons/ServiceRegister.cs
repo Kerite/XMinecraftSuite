@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using XMinecraftSuite.Core.Providers;
+using XMinecraftSuite.Core.Services;
 using XMinecraftSuite.Core.Services.Config;
 using XMinecraftSuite.Core.Services.Download;
 using XMinecraftSuite.Gui.ViewModels;
@@ -21,10 +22,10 @@ internal static class ServiceRegister
         services.AddTransient<ModVersionsViewModel>();
         services.AddTransient<SearchModListViewModel>();
         services.AddTransient<ModProviderSelectorViewModel>();
-        services.AddTransient(_ =>
+        services.AddTransient(p =>
         {
             return new ModVersionsViewModel.ModVersionsWindowViewModelFactory(param =>
-                new ModVersionsViewModel(param));
+                new ModVersionsViewModel(p.GetRequiredService<MinecraftService>(), param));
         });
         return services;
     }

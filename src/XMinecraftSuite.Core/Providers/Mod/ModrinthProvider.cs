@@ -65,10 +65,7 @@ internal class ModrinthProvider : IModProvider
         return jsonResult?.ToList<AbstractModVersion>() ?? new List<AbstractModVersion>();
     }
 
-    string IModProvider.OriginUrl(string slug)
-    {
-        return $"https://modrinth.com/mod/{slug}";
-    }
+    string IModProvider.OriginUrl(string slug) => $"https://modrinth.com/mod/{slug}";
 
     async Task<List<AbstractModSearchResult>> IModProvider.SearchModAsync(string? modName, int limit, int offset, EnumSearchSortRule order, string[]? gameVersions, EnumModLoader[]? modLoaders)
     {

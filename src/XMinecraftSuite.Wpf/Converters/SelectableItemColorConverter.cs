@@ -11,9 +11,6 @@ namespace XMinecraftSuite.Wpf.Converters;
 /// </summary>
 public class SelectableItemColorConverter : IMultiValueConverter, IValueConverter
 {
-    private static readonly Brush DefaultSelectedItemBrush = new SolidColorBrush(Color.FromRgb(0xCB, 0xE8, 0xF6));
-    private static readonly Brush DefaultNotSelectedItemBrush = new SolidColorBrush(Colors.Transparent);
-
     /// <summary>
     /// 选择的元素的背景色.
     /// </summary>
@@ -23,6 +20,10 @@ public class SelectableItemColorConverter : IMultiValueConverter, IValueConverte
     /// 没有被选择的元素的背景色.
     /// </summary>
     public Brush DefaultItemBrush { get; set; } = DefaultNotSelectedItemBrush;
+
+    private static Brush DefaultSelectedItemBrush { get; } = new SolidColorBrush(Color.FromRgb(0xCB, 0xE8, 0xF6));
+
+    private static Brush DefaultNotSelectedItemBrush { get; } = new SolidColorBrush(Colors.Transparent);
 
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

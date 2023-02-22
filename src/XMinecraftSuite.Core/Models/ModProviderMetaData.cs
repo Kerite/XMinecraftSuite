@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Keriteal. All rights reserved.
 
-using SkiaSharp;
+using SixLabors.ImageSharp;
 
 namespace XMinecraftSuite.Core.Models;
 
@@ -8,6 +8,7 @@ namespace XMinecraftSuite.Core.Models;
 /// ModProvider 的 元数据.
 /// </summary>
 [Serializable]
+[ToString]
 [Equals(DoNotAddEqualityOperators = true)]
 public sealed class ModProviderMetaData
 {
@@ -29,5 +30,5 @@ public sealed class ModProviderMetaData
     /// <summary>
     /// Provider 的图标.
     /// </summary>
-    public required SKBitmap? Icon { get; init; }
+    public required Image? Icon { get; init; }
 }

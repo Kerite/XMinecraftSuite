@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Keriteal. All rights reserved.
 
 using Microsoft.Extensions.DependencyInjection;
-using SkiaSharp;
+using SixLabors.ImageSharp;
 using XMinecraftSuite.Core.Models;
 using XMinecraftSuite.Core.Models.Configs;
 using XMinecraftSuite.Core.Services;
@@ -35,6 +35,7 @@ public static class Utils
         services.AddSingleton<IDownloadService, AriaDownloadService>();
         services.AddSingleton<IDownloadService, DownloaderDownloadService>();
         services.AddSingleton<IDownloadService, DownloadServiceProxy>();
+        services.AddSingleton<MinecraftService>();
         return services;
     }
 
@@ -65,8 +66,9 @@ public static class Utils
     /// </summary>
     /// <param name="bytes">图片的字节.</param>
     /// <returns>位图.</returns>
-    public static SKBitmap LoadBitmap(byte[] bytes)
+    public static Image LoadBitmap(byte[] bytes)
     {
-        return SKBitmap.Decode(bytes);
+        var image = Image.Load(bytes);
+        return image;
     }
 }

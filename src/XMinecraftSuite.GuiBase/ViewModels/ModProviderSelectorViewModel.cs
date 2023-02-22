@@ -8,7 +8,7 @@ namespace XMinecraftSuite.Gui.ViewModels;
 /// <summary>
 /// ModProvider选择器.
 /// </summary>
-public partial class ModProviderSelectorViewModel : ObservableRecipient
+public sealed partial class ModProviderSelectorViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private string selectedProvider = "modrinth";

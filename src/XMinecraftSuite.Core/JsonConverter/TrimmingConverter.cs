@@ -18,8 +18,5 @@ public class TrimmingConverter : JsonConverter<string>
     }
 
     /// <inheritdoc/>
-    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(value?.Trim());
-    }
+    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options) => writer.WriteStringValue(value?.Trim());
 }

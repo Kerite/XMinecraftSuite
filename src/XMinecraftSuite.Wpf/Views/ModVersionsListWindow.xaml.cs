@@ -19,6 +19,7 @@ public partial class ModVersionsListWindow : Window
     {
         InitializeComponent();
         this.ViewModel = factory(slug);
+        this.ViewModel.IsActive = true;
         this.DataContext = this.ViewModel;
     }
 

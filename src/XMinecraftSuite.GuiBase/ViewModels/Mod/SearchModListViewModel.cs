@@ -13,7 +13,7 @@ namespace XMinecraftSuite.Gui.ViewModels;
 /// <summary>
 /// 搜索模组的结果.
 /// </summary>
-public partial class SearchModListViewModel : ObservableRecipient, IRecipient<GuiMessages.ModProviderSelectedMessage>
+public sealed partial class SearchModListViewModel : ObservableRecipient, IRecipient<GuiMessages.ModProviderSelectedMessage>
 {
     [ObservableProperty]
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -39,10 +39,7 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     /// <summary>
     /// Initializes a new instance of the <see cref="SearchModListViewModel"/> class.
     /// </summary>
-    public SearchModListViewModel()
-    {
-        _ = SearchAsync();
-    }
+    public SearchModListViewModel() => _ = SearchAsync();
 
     /// <summary>
     /// Mod 搜索结果.
@@ -50,10 +47,7 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     public ObservableCollection<AbstractModSearchResult> ModSearchResults { get; set; } = new();
 
     /// <inheritdoc/>
-    public void Receive(GuiMessages.ModProviderSelectedMessage message)
-    {
-        this.ProviderKey = message.Provider;
-    }
+    public void Receive(GuiMessages.ModProviderSelectedMessage message) => this.ProviderKey = message.Provider;
 
     /// <summary>
     /// 加载更多.
@@ -124,15 +118,9 @@ public partial class SearchModListViewModel : ObservableRecipient, IRecipient<Gu
     /// </summary>
     /// <param name="slug">被选择的Slug.</param>
     [RelayCommand]
-    public void SelectMod(string slug)
-    {
-        this.SelectedSlug = slug;
-    }
+    public void SelectMod(string slug) => this.SelectedSlug = slug;
 
-    private bool CanSearch()
-    {
-        return !this.Searching;
-    }
+    private bool CanSearch() => !this.Searching;
 
     partial void OnSelectedSlugChanged(string value)
     {

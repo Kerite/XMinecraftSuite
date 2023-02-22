@@ -5,7 +5,8 @@ namespace XMinecraftSuite.Core.Models;
 /// <summary>
 /// 启动游戏需要的参数.
 /// </summary>
-public class RunGameParameters
+[ToString]
+public sealed class RunGameParameters
 {
     /// <summary>
     /// 用户名.

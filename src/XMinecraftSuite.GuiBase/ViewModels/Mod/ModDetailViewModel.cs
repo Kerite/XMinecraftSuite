@@ -14,6 +14,12 @@ public sealed partial class ModDetailViewModel : ObservableRecipient,
     IRecipient<GuiMessages.ModSelectedMessage>,
     IRecipient<GuiMessages.ModProviderSelectedMessage>
 {
+    [ObservableProperty]
+    private AbstractModDetails? modDetail;
+
+    [ObservableProperty]
+    private bool reset;
+
     private string? modProvider = "modrinth";
 
     /// <inheritdoc/>
